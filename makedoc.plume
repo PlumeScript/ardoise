@@ -1,0 +1,33 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+use pages
+
+let version = v0.1.0
+
+@Document(filename: doc/doc, pagination: 3)
+	$vfill
+	@MainTitle
+		title: $image($os.Path(./logo.svg)) Documentation
+		subtitle: $version
+	end
+
+	$vfill
+	$newpage
+
+	@Header(?excludeFirst)
+	  left: Ardoise Documentation
+	end
+	
+	@Footer(?excludeFirst)
+	  center: $version
+	end
+
+	$whitePage
+	$tableOfContents(title: Table of contents)
+	$newpage
+end

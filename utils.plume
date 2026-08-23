@@ -1,0 +1,16 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+getSupported: macro (name, path)
+	Supported $name are:\s
+	@Table.join(sep: \,\s)
+		for file in path.getChildren()
+			- $file.getStem()
+		end
+	end
+	.
+end

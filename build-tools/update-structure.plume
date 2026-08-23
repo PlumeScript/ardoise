@@ -1,0 +1,90 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let templates = do
+	- core
+	- exam-base
+	- exam-short
+	- exam-long
+	- exercices-base
+	- exercices-drill
+	- exercices-screen
+	- exercices-home
+	- diapo-base
+	- diapo-workedExamples
+	- diapo-revisions
+	- lesson
+end
+
+let themes    = $Table(black-ink)
+
+let license = raw
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+end
+
+macro make(files, dirs)
+	for file in files
+		if not file.exists()
+			@file.write
+				$license\n
+				if file.getExtension() == "plume"
+					let partition = $file.getParent().getStem().partition(-)
+					if len(partition) == 0
+						set partition = ($empty,$empty,$empty)
+					end
+
+					let body, _, adj = $partition
+					if adj and adj != "base"
+						\nrequired: \$Table($body-base)
+					else
+						\n\$Table()
+					end
+				end
+			end
+		end
+	end
+
+	for dir in dirs
+		if not dir.exists()
+			$dir.mkdir()
+		end
+	end
+end
+
+macro makeLogicStructure(base)
+	let files = $ Table(base / "core.plume")
+	let dirs  = do
+		- $(base / "utils")
+		- $(base / "components")
+	end
+
+	$ make(files, dirs)
+end
+
+macro makeStyleStructure(base)
+	let files = $ Table(base / "core.css")
+	let dirs  = do
+		- $(base / "components")
+	end
+
+	$ make(files, dirs)
+end
+
+for template in templates
+	$ makeLogicStructure(os.Path("logic") /  template)
+	$ makeStyleStructure(os.Path("style") / template)
+	for theme in themes
+		$ makeStyleStructure(os.Path("themes") / theme / template)
+	end
+end
+
+

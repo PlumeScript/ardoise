@@ -1,0 +1,105 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let utils = $import(./utils)
+
+style: $empty
+
+ref paths: do
+	templates: $os.Path(./logic)
+	styles:    $os.Path(./style)
+	themes:    $os.Path(./themes)
+end
+
+macro getTemplateDir(name)
+	if not name
+		raise do
+			You must provide a template name (ex: `use ardoise(lesson)`)\n
+			$utils.getSupported(template, $paths.templates)
+		end
+	end
+
+	let result = $(paths.templates / name)
+	if not result.exists()
+		raise do
+			Unknown template "$name".\n
+			$utils.getSupported(template, $paths.templates)
+		end
+	end
+	return $result
+end
+
+macro getThemeDir(name)
+	let result = $(paths.themes / name)
+	if not result.exists()
+		raise do
+			Unknown theme "$name".\n
+			$utils.getSupported(theme, $paths.themes)
+		end
+	end
+	return $result
+end
+
+macro getStyleDir(name)
+	let result = $(paths.styles / name)
+	if not result.exists()
+		raise do
+			Unknown style "$name".\n
+			$utils.getSupported(style, $paths.styles)
+		end
+	end
+	return $result
+end
+
+macro getStyle(path)
+	let core = $(path / "core.css")
+	if core.exists()
+		$core.read()
+	end
+
+	for component in (path / "component").walk()
+		if component.getExtension() == "css"
+			$component.read()
+		end
+	end
+end
+
+load: macro(template, theme)
+	let result = do
+		logic: $Table()
+		style: $ Table()
+		theme: $ Table()
+		names: $Table($template)
+	end
+	let index  = 1
+	let loadedCore = $false
+
+	while index <= len(result.names)
+		let name = $result.names[index]
+
+		set result.logic[name] = for file in getTemplateDir(name).walk()
+			if file.getExtension() == "plume"
+				...file.import()
+			end
+		end
+
+		set result.style[name] = $ getStyle(getStyleDir(name))
+		set result.theme[name] = $ getStyle(getThemeDir(theme) / name)
+
+		for req in result.logic[name].required? or Table()
+			run $ Table.append(result.names, req)
+		end
+
+		set index += 1
+
+		if index > len(result.names) and not result.logic.core?
+			run $ Table.append(result.names, "core")
+		end
+	end
+
+	return $result
+end
