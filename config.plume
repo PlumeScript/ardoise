@@ -61,7 +61,7 @@ macro getStyle(path)
 		$core.read()
 	end
 
-	for component in (path / "component").walk()
+	for component in (path / "components").walk()
 		if component.getExtension() == "css"
 			$component.read()
 		end
