@@ -1,0 +1,22 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+.ardoise--vocabulary {
+	font-weight: bold;
+	background: var(--highlight-background);
+	padding-left: var(--space-xs);
+	padding-right: var(--space-xs);
+	border-radius: var(--space-xs);
+}
+
+.ardoise--important {
+	font-weight: bold;
+}
+
+.ardoise--secondary {
+	font-style: italic;
+}

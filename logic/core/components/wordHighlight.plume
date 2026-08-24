@@ -1,0 +1,28 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+
+ref vocabulary: macro(content)
+	@html.Span(class: ardoise--vocabulary)
+		$content
+	end
+end
+
+voc: $vocabulary
+
+important: macro(content)
+	@html.Span(class: ardoise--important)
+		$content
+	end
+end
+
+secondary: macro(content)
+	@html.Span(class: ardoise--secondary)
+		$content
+	end
+end
