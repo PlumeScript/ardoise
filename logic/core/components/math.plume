@@ -1,0 +1,24 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let pages = $import(pages)
+
+m: macro (content)
+	$pages.formula($content, processor: ascii)
+end
+
+M: macro (content)
+	$pages.formula($content, processor: ascii, ?display)
+end
+
+mx: macro (content)
+	$pages.formula($content)
+end
+
+MX: macro (content)
+	$pages.formula($content, ?display)
+end
