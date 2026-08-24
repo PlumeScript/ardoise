@@ -4,3 +4,11 @@ This file is part of Ardoise - A Plume🪶 document generator
 Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
+
+:root {
+	--main-border: 2px solid black;
+	--main-border-radius: var(--space-xs);
+
+	--small-border: 1px solid black;
+	--small-border-radius: var(--space-xxs);
+}

@@ -1,0 +1,111 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+let Frame from $import(./frame-base)
+
+macro makeTitle(base, name)
+	$html.Span($base, class: ardoise--frame--title--prefix)
+	if name
+		\s$html.Span($name, class: ardoise--frame--title--name)
+	end
+end
+
+ref Definition: macro(content, name:)
+	let title = @makeTitle
+		- if plume.locale() == "fr"
+			Définition
+		else
+			Definition
+		end
+		- $name
+	end
+
+	@Frame(title: $title)
+		$content
+	end
+end
+Def: $Definition
+ref Definitions: macro(content, name:)
+	let title = @makeTitle
+		- if plume.locale() == "fr"
+			Définitions
+		else
+			Definitions
+		end
+		- $name
+	end
+
+	@Frame(title: $title)
+		$content
+	end
+end
+Defs: $Definitions
+
+ref Property: macro(content, name:)
+	let title = @makeTitle
+		- if plume.locale() == "fr"
+			Propriété
+		else
+			Property
+		end
+		- $name
+	end
+
+	@Frame(title: $title)
+		$content
+	end
+end
+Prop: $Property
+
+ref Properties: macro(content, name:)
+	let title = @makeTitle
+		- if plume.locale() == "fr"
+			Propriétés
+		else
+			Properties
+		end
+		- $name
+	end
+
+	@Frame(title: $title)
+		$content
+	end
+end
+Props: $Properties
+
+ref Theorem: macro(content, name:)
+	let title = @makeTitle
+		- if plume.locale() == "fr"
+			Théorème
+		else
+			Theorem
+		end
+		- $name
+	end
+
+	@Frame(title: $title)
+		$content
+	end
+end
+Th: $Theorem
+
+ref Theorems: macro(content, name:)
+	let title = @makeTitle
+		- if plume.locale() == "fr"
+			Théorèmes
+		else
+			Theorems
+		end
+		- $name
+	end
+
+	@Frame(title: $title)
+		$content
+	end
+end
+Ths: $Theorems
