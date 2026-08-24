@@ -1,0 +1,26 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+
+note: macro(content)
+	@html.Span(class: ardoise--note)
+		$content
+	end
+end
+
+hint: macro(content)
+	@html.Span(class: ardoise--hint)
+		$content
+	end
+end
+
+quote: macro(content)
+	@html.Span(class: ardoise--quote $(plume.locale() == "fr" and "ardoise--quote-french"))
+		$content
+	end
+end
