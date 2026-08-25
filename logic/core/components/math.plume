@@ -15,10 +15,18 @@ M: macro (content)
 	$pages.formula($content, processor: ascii, ?display)
 end
 
+Mm: macro (content)
+	$pages.formula($content, processor: ascii, ?inlineDisplay)
+end
+
 mx: macro (content)
 	$pages.formula($content)
 end
 
-MX: macro (content)
+Mx: macro (content)
 	$pages.formula($content, ?display)
+end
+
+Mmx: macro (content)
+	$pages.formula($content, ?inlineDisplay)
 end
