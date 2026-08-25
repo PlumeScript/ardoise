@@ -20,3 +20,7 @@ Licensed under the MIT License — see LICENSE for details.
 .ardoise--secondary {
 	font-style: italic;
 }
+
+.ardoise--instruction {
+	font-weight: bold;
+}
