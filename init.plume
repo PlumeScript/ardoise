@@ -56,10 +56,13 @@ Document: macro(content, ...args)
 			end
 		end
 		@html.Script
-			for i in seq(1, len(lib.names))
-				let name = $lib.names[len(lib.names)-i+1]
-				$lib.script[name]
-			end
+			document.addEventListener('DOMContentLoaded', async function () {
+				await window.__pagesReady;
+				for i in seq(1, len(lib.names))
+					let name = $lib.names[len(lib.names)-i+1]
+					$lib.script[name]
+				end
+			})
 		end
 		$content
 	end
