@@ -79,9 +79,18 @@ macro makeStyleStructure(base)
 	$ make(files, dirs)
 end
 
+macro makeJsStructure(base)
+	let dirs  = do
+		- $(base / "components")
+	end
+
+	$ make(Table(), dirs)
+end
+
 for template in templates
 	$ makeLogicStructure(os.Path("logic") /  template)
 	$ makeStyleStructure(os.Path("style") / template)
+	$ makeJsStructure(os.Path("scripts") / template)
 	for theme in themes
 		$ makeStyleStructure(os.Path("themes") / theme / template)
 	end

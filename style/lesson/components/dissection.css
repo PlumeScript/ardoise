@@ -1,0 +1,36 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+.ardoise--dissection {
+	/* Vertical band between the --show line and the legend labels (applied by the script).
+	   Must stay wide enough for the link lines: show-gap + legend-gap + the line itself. */
+	--ardoise--dissection-label-offset: 1.5em;
+	/* Minimum gap enforced between two legend labels */
+	--ardoise--dissection-label-gap: 0.75em;
+	/* Gap between a link's top end and the word's bottom edge (applied by the script) */
+	--ardoise--dissection-show-gap: 0.1em;
+	/* Gap between a link's bottom end and a label's top edge (applied by the script) */
+	--ardoise--dissection-legend-gap: 0em;
+	position: relative;
+}
+
+/* Overlay drawn by the script, one straight line per word/label pair */
+.ardoise--dissection--links {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	/* Lines may reach labels that extend past the block (centered content) */
+	overflow: visible;
+}
+
+.ardoise--dissection--links line {
+	stroke: var(--light-element, #999);
+	stroke-width: 1;
+}

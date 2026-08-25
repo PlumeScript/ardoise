@@ -13,6 +13,7 @@ ref paths: do
 	templates: $os.Path(./logic)
 	styles:    $os.Path(./style)
 	themes:    $os.Path(./themes)
+	scripts:   $os.Path(./scripts)
 end
 
 macro getTemplateDir(name)
@@ -55,6 +56,17 @@ macro getStyleDir(name)
 	return $result
 end
 
+macro getScriptDir(name)
+	let result = $(paths.scripts / name)
+	if not result.exists()
+		raise do
+			Unknown script "$name".\n
+			$utils.getSupported(style, $paths.scripts)
+		end
+	end
+	return $result
+end
+
 macro getStyle(path)
 	let core = $(path / "core.css")
 	if core.exists()
@@ -68,12 +80,21 @@ macro getStyle(path)
 	end
 end
 
+macro getScript(path)
+	for component in (path / "components").walk()
+		if component.getExtension() == "js"
+			$component.read()
+		end
+	end
+end
+
 load: macro(template, theme)
 	let result = do
-		logic: $Table()
-		style: $ Table()
-		theme: $ Table()
-		names: $Table($template)
+		logic:  $ Table()
+		style:  $ Table()
+		theme:  $ Table()
+		script: $ Table()
+		names:  $ Table(template)
 	end
 	let index  = 1
 	let loadedCore = $false
@@ -87,8 +108,9 @@ load: macro(template, theme)
 			end
 		end
 
-		set result.style[name] = $ getStyle(getStyleDir(name))
-		set result.theme[name] = $ getStyle(getThemeDir(theme) / name)
+		set result.style[name]  = $ getStyle(getStyleDir(name))
+		set result.theme[name]  = $ getStyle(getThemeDir(theme) / name)
+		set result.script[name] = $ getScript(getScriptDir(name))
 
 		for req in result.logic[name].required? or Table()
 			run $ Table.append(result.names, req)

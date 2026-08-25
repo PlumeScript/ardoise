@@ -1,0 +1,54 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let M from $import(../../core/components/math)
+let html = $import(html)
+
+let dissectionCount = 0
+// Render text with named arrow
+ref Dissection: macro(finalize:, ?math, ...entries)
+	set dissectionCount += 1
+
+	macro makeid(i)
+		dissection-$dissectionCount-$i
+	end
+
+	let show, legend
+	for i, k in enumerate(entries)
+		set show = do
+			$show\s
+			if math
+				\\class{$makeid($i)-to}{$k.content}
+			else
+				$html.Span($k.content, class:$makeid($i)-to)
+			end
+		end
+		if k.label?
+			set legend = do
+				$legend
+				$html.Span($k.label, class:$makeid($i)-from)
+			end
+		end
+	end
+	if finalize
+		set show = $ finalize(show)
+	end
+
+	@html.Div(class: ardoise--dissection)
+		@html.Div(class: ardoise--dissection--show)
+			$show
+		end
+		@html.Div(class: ardoise--dissection--legend)
+			$legend
+		end
+	end
+end
+
+// Render text with named arrow
+FormulaDissection: macro(...entries)
+	$Dissection(finalize: $M, ?math, ...entries)
+end

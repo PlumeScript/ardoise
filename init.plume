@@ -55,6 +55,12 @@ Document: macro(content, ...args)
 				$lib.theme[name]
 			end
 		end
+		@html.Script
+			for i in seq(1, len(lib.names))
+				let name = $lib.names[len(lib.names)-i+1]
+				$lib.script[name]
+			end
+		end
 		$content
 	end
 end
