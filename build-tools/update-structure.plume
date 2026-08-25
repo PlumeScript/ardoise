@@ -71,7 +71,7 @@ macro makeLogicStructure(base)
 end
 
 macro makeStyleStructure(base)
-	let files = $ Table(base / "core.css")
+	let files = $ Table(base / "core.css", base / "core.plume")
 	let dirs  = do
 		- $(base / "components")
 	end
@@ -95,5 +95,3 @@ for template in templates
 		$ makeStyleStructure(os.Path("themes") / theme / template)
 	end
 end
-
-
