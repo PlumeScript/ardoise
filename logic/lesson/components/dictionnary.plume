@@ -1,0 +1,45 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+
+// Make a big list of definitions readable
+// Options saved inside _ entry:
+// - gap (space between lignes, multiples of var(--space-1x))
+// - nameSize (%)
+Dictionnary: macro(...entries)
+	let options = $ entries._? or Table()
+	let spacing = if options.gap?
+		paddingTop: calc($(options.gap/2) * var(--space-1x))
+		paddingBottom: calc($(options.gap/2) * var(--space-1x))
+	else
+		...Table()
+	end
+	@html.Table(class: ardoise--dictionnary pages--to-flow)
+		for k, v in items(entries)
+			if k != "_"
+				@html.Tbody(class: pages--to-flow)
+					@html.Tr(class: ardoise--dictionnary--entry pages--to-flow)
+						@html.Td(class: ardoise--dictionnary--name)
+							style: do
+								if options.nameSize?
+									width: $options.nameSize%
+								end
+								...spacing
+							end
+							- $k
+						end
+						@html.Td(class: ardoise--dictionnary--body pages--to-flow)
+							style: $spacing
+							- $v
+						end
+					end
+				end
+			end
+		end
+	end
+end
