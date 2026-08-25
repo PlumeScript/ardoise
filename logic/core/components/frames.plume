@@ -15,97 +15,71 @@ macro makeTitle(base, name)
 	end
 end
 
-ref Definition: macro(content, name:)
-	let title = @makeTitle
-		- if plume.locale() == "fr"
-			Définition
-		else
-			Definition
-		end
-		- $name
-	end
-
+ref NamedFrame: macro(content, title:, name:)
 	@Frame(title: $title)
-		$content
+		title: @makeTitle
+			- $title
+			- $name
+		end
+		- $content
 	end
+end
+
+ref Definition: macro(content, name:)
+	let title = if plume.locale() == "fr"
+		Définition
+	else
+		Definition
+	end
+	$ NamedFrame(content, title: title, name: name)
 end
 Def: $Definition
 ref Definitions: macro(content, name:)
-	let title = @makeTitle
-		- if plume.locale() == "fr"
-			Définitions
-		else
-			Definitions
-		end
-		- $name
+	let title = if plume.locale() == "fr"
+		Définitions
+	else
+		Definitions
 	end
-
-	@Frame(title: $title)
-		$content
-	end
+	$ NamedFrame(content, title: title, name: name)
 end
 Defs: $Definitions
 
 ref Property: macro(content, name:)
-	let title = @makeTitle
-		- if plume.locale() == "fr"
-			Propriété
-		else
-			Property
-		end
-		- $name
+	let title = if plume.locale() == "fr"
+		Propriété
+	else
+		Property
 	end
-
-	@Frame(title: $title)
-		$content
-	end
+	$ NamedFrame(content, title: title, name: name)
 end
 Prop: $Property
 
 ref Properties: macro(content, name:)
-	let title = @makeTitle
-		- if plume.locale() == "fr"
-			Propriétés
-		else
-			Properties
-		end
-		- $name
+	let title = if plume.locale() == "fr"
+		Propriétés
+	else
+		Properties
 	end
-
-	@Frame(title: $title)
-		$content
-	end
+	$ NamedFrame(content, title: title, name: name)
 end
 Props: $Properties
 
 ref Theorem: macro(content, name:)
-	let title = @makeTitle
-		- if plume.locale() == "fr"
-			Théorème
-		else
-			Theorem
-		end
-		- $name
+	let title = if plume.locale() == "fr"
+		Théorème
+	else
+		Theorem
 	end
-
-	@Frame(title: $title)
-		$content
-	end
+	$ NamedFrame(content, title: title, name: name)
 end
 Th: $Theorem
 
 ref Theorems: macro(content, name:)
-	let title = @makeTitle
-		- if plume.locale() == "fr"
-			Théorèmes
-		else
-			Theorems
-		end
-		- $name
+	let title = if plume.locale() == "fr"
+		Théorèmes
+	else
+		Theorems
 	end
-
-	@Frame(title: $title)
-		$content
-	end
+	$ NamedFrame(content, title: title, name: name)
 end
 Ths: $Theorems
