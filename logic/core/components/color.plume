@@ -1,0 +1,63 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html  = $import(html)
+let pages = $import(pages)
+
+ref color: macro(color, content)
+	@pages.Scope
+		rules: do
+			color: $color
+		end
+		- $content
+	end
+end
+
+ref backgroundColor: macro(color, content)
+	@pages.Scope
+		rules: do
+			backgroundColor: $color
+		end
+		- $content
+	end
+end
+bg: $backgroundColor
+
+// Color intended to be used inside a formula
+ref mcolor: macro(color, content)
+	\\color{$color}{$content}
+end
+
+ref mathBackgroundColor: macro(color, content)
+	\\colorbox{$color}{$content}
+end
+mbg: $mathBackgroundColor
+
+
+
+let basesColors = (red, blue, green)
+for colorname in basesColors
+	$colorname: macro(content)
+		$color($colorname, $content)
+	end
+	$("m"..colorname): macro(content)
+		$mcolor($colorname, $content)
+	end
+	$(colorname.."Background"): macro(content)
+		$backgroundColor($colorname, $content)
+	end
+	$("m"..colorname.."Background"): macro(content)
+		$mathBackgroundColor($colorname, $content)
+	end
+	$(colorname.."bg"): macro(content)
+		$backgroundColor($colorname, $content)
+	end
+	$("m"..colorname.."bg"): macro(content)
+		$mathBackgroundColor($colorname, $content)
+	end
+	
+end
