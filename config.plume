@@ -47,13 +47,9 @@ end
 
 macro getScriptDir(name)
 	let result = $(paths.scripts / name)
-	if not result.exists()
-		raise do
-			Unknown script "$name".\n
-			$utils.getSupported(style, $paths.scripts)
-		end
+	if result.exists()
+		return $result
 	end
-	return $result
 end
 
 macro getStyle(path)
@@ -70,9 +66,11 @@ macro getStyle(path)
 end
 
 macro getScript(path)
-	for component in (path / "components").walk()
-		if component.getExtension() == "js"
-			$component.read()
+	if path
+		for component in (path / "components").walk()
+			if component.getExtension() == "js"
+				$component.read()
+			end
 		end
 	end
 end
