@@ -15,7 +15,9 @@ Dictionnary: macro(...entries)
 	let options = $ entries._? or Table()
 	let style = do
 		let columns = $ options.columns? or 1
-		if options.nameSize?
+		if options.vertical?
+			gridTemplateColumns: repeat($columns, 1fr)
+		elseif options.nameSize?
 			gridTemplateColumns: repeat($columns, $options.nameSize% 1fr)
 		else
 			gridTemplateColumns: repeat($columns, max-content 1fr)
@@ -28,7 +30,7 @@ Dictionnary: macro(...entries)
 		end
 	end
 
-	@html.Div(class: ardoise--dictionnary pages--to-flow, style: $style)
+	@html.Div(class: ardoise--dictionnary pages--to-flow $(options.vertical? and "ardoise--dictionnary-vertical"), style: $style)
 		for k, v in items(entries)
 			if k != "_"
 				@html.Div(class: ardoise--dictionnary--name)
