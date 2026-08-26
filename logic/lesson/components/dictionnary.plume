@@ -31,7 +31,7 @@ Dictionnary: macro(...entries)
 								end
 								...spacing
 							end
-							- $k
+							- $html.Span($k, class: ardoise--dictionnary--name--body)
 						end
 						@html.Td(class: ardoise--dictionnary--body pages--to-flow)
 							style: $spacing

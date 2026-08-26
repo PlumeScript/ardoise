@@ -5,13 +5,12 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
-.ardoise--dictionnary--name {
+.ardoise--dictionnary--name--body {
     font-size: 100%;
-    font-variant: unset;
+    font-variant: none;
     font-family: var(--font-title);
     color: white;
-    background: black;
+    background: var(--muted);
     border-radius: var(--small-border-radius);
-    padding-right: var(--space-xs);
-    padding-left: var(--space-xs);
+    padding: var(--space-xs);
 }
