@@ -9,7 +9,10 @@ Licensed under the MIT License — see LICENSE for details.
 	--main-border-radius: var(--space-xs);
 
 	--small-border: 2px solid black;
-	--small-border-radius: var(--space-xxs);
+	--small-border-radius: var(--space-xs);
+
+	--very-small-border: 1px solid black;
+	--very-small-border-radius: var(--space-xs);
 
 	--main-shadow: calc(-1 * var(--space-1x)) var(--space-1x) black;
 	--small-shadow: calc(-1 * var(--space-xs)) var(--space-xs) black;
@@ -17,9 +20,13 @@ Licensed under the MIT License — see LICENSE for details.
 	--font-title: "Rosemary";
 	--font-body: "ABeeZee";
 
+
 }
 
 html {
 	line-height: var(--leading-tight);
 }
 
+.ardoise--level--full, .ardoise--level--empty {
+	color: var(--muted);
+}
