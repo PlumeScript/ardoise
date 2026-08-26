@@ -1,0 +1,114 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+let newpar from $import(pages)
+let hint from $import(../../core/components/notes)
+let instruction from $import(../../core/components/wordHighlight)
+
+Examples: macro(columns:1, gap:, ...entries)
+	let style = do
+		gridTemplateColumns: repeat($columns, 1fr)
+		if gap
+			gap: calc($gap * var(--space-1x))
+		end
+	end
+
+	@html.Div(class: ardoise--examples pages--to-flow, style: $style)
+		for entry in entries
+			@html.Div(class: ardoise--examples--item pages--to-flow)
+				let level = if entry.level?
+					@html.Div(class: ardoise--level)
+						for in in seq(entry.level)
+							$html.Span(,class: ardoise--level--full)
+						end
+						for in in seq((entry.maxLevel? or 3) - entry.level)
+							$html.Span(,class: ardoise--level--empty)
+						end
+					end
+				end
+
+				if entry.answer?
+					if entry.shortAnswer?
+						raise Cannot have both answer and shortAnswer for a question.
+					end
+					@html.Div(class: ardoise--examples--question pages--to-flow)
+						@html.Div(class: ardoise--examples--question--body pages--to-flow)
+							@instruction
+								@html.Span(class: ardoise--examples--question--prefix)
+									Question
+								end
+							end
+						
+							$entry.question
+						end
+						$level
+					end
+						
+					@html.Div(class: ardoise--examples--answer pages--to-flow)
+						if entry.answerTag?
+							@html.Div(class: ardoise--examples--answer--tag)
+								$entry.answerTag
+							end
+						end
+						@instruction
+							@html.Span(class: ardoise--examples--answer--prefix)
+								if plume.locale() == "fr"
+									Réponse
+								else
+									Answer
+								end
+							end
+						end
+						$entry.answer
+						if entry.answerAlt?
+							$newpar
+							@instruction
+								@html.Span(class: ardoise--examples--answer--prefix)
+									if plume.locale() == "fr"
+										Réponse alternative
+									else
+										Alternative answer
+									end
+								end
+							end
+							$entry.answerAlt
+						end
+					end
+				elseif entry.shortAnswer?
+					if entry.answerTag?
+						raise `answerTag` isn't compatible with `shortAnswer`.
+					end
+					if entry.answerAlt?
+						raise `answerAlt` isn't compatible with `shortAnswer`.
+					end
+					@html.Div(class: ardoise--examples--wrapper)
+						@html.Span(class: ardoise--examples--question pages--to-flow)
+							$level $entry.question
+						end
+						@html.Span(class: ardoise--examples--answer ardoise--examples--answer-short pages--to-flow)
+							$entry.shortAnswer
+						end
+					end
+				end
+
+				if entry.tip?
+					@html.Div(class: ardoise--examples--tip pages--to-flow)
+						@hint
+							if entry.tipLabel?
+								@html.Span(class: ardoise--examples--tips--prefix)
+									$entry.tipLabel
+								end
+							end
+							$entry.tip
+						end
+					end
+				end
+			end
+		end
+	end
+end

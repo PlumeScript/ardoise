@@ -11,4 +11,15 @@ Licensed under the MIT License — see LICENSE for details.
 
 	--small-border: 1px solid black;
 	--small-border-radius: var(--space-xxs);
+
+	--answer-color-bg: #ddd;
+}
+
+
+.ardoise--level--full::before {
+	content: "★";
+}
+
+.ardoise--level--empty::before {
+	content: "☆";
 }
