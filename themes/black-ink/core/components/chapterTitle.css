@@ -7,4 +7,23 @@ Licensed under the MIT License — see LICENSE for details.
 
 .ardoise--frame.ardoise--chapter-title {
 	padding: var(--space-xs);
+	overflow: hidden;
+	position: relative;
+	z-index: 0;
+}
+
+.ardoise--chapter-title::before {
+	content: "";
+	transform: translate(-2rem, -0.5rem);
+	position: absolute;
+	width: 6rem;
+	height: 6rem;
+	border-radius: 50%;
+	background: black;
+	z-index: -1;
+}
+
+.ardoise--chapter-title--num {
+	background: none;
+	border: none;
 }
