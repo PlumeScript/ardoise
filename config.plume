@@ -11,7 +11,6 @@ style: $empty
 
 ref paths: do
 	templates: $os.Path(./logic)
-	styles:    $os.Path(./style)
 	themes:    $os.Path(./themes)
 	scripts:   $os.Path(./scripts)
 end
@@ -45,16 +44,6 @@ macro getThemeDir(name)
 	return $result
 end
 
-macro getStyleDir(name)
-	let result = $(paths.styles / name)
-	if not result.exists()
-		raise do
-			Unknown style "$name".\n
-			$utils.getSupported(style, $paths.styles)
-		end
-	end
-	return $result
-end
 
 macro getScriptDir(name)
 	let result = $(paths.scripts / name)
@@ -91,7 +80,6 @@ end
 load: macro(template, theme)
 	let result = do
 		logic:  $ Table()
-		style:  $ Table()
 		theme:  $ Table()
 		script: $ Table()
 		names:  $ Table(template)
@@ -104,7 +92,10 @@ load: macro(template, theme)
 
 		let files = do
 			...getTemplateDir($name).walk()
-			- $(paths.themes / theme / name / "core.plume")
+			- $(paths.themes / theme / "core" / "core.plume")
+			if theme != "core"
+				- $(paths.themes / theme / name / "core.plume")
+			end
 		end
 
 		set result.logic[name] = for file in files
@@ -113,8 +104,13 @@ load: macro(template, theme)
 			end
 		end
 
-		set result.style[name]  = $ getStyle(getStyleDir(name))
-		set result.theme[name]  = $ getStyle(getThemeDir(theme) / name)
+		set result.theme[name]  = do
+			$ getStyle(getThemeDir("core") / name)
+			// Should have inhéritance like templates
+			if theme != "core"
+				$ getStyle(getThemeDir(theme) / name)
+			end
+		end
 		set result.script[name] = $ getScript(getScriptDir(name))
 
 		for req in result.logic[name].required? or Table()

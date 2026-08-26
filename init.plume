@@ -27,8 +27,8 @@ let html    = $import(html)
 let config  = $import(./config)
 let utils   = $import(./utils)
 
-let param arg1 = lesson
-let param theme = black-ink
+let param arg1  = lesson
+let param theme = core
 
 // Resolve logic and style
 let lib = $config.load($arg1, $theme)
@@ -46,10 +46,6 @@ end
 Document: macro(content, ...args)
 	@baseDocument(...args)
 		@html.Style
-			for i in seq(1, len(lib.names))
-				let name = $lib.names[len(lib.names)-i+1]
-				$lib.style[name]
-			end
 			for i in seq(1, len(lib.names))
 				let name = $lib.names[len(lib.names)-i+1]
 				$lib.theme[name]
