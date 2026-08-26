@@ -11,13 +11,6 @@ Licensed under the MIT License — see LICENSE for details.
 	margin-right: auto;
 }
 
-.ardoise--dictionnary--name {
-	font-size: 80%;
-	text-transform: capitalize;
-	color: var(--muted);
-	font-variant: small-caps;
-}
-
 .ardoise--dictionnary--name--body {
 	text-align: center;
 }

@@ -8,3 +8,7 @@ Licensed under the MIT License — see LICENSE for details.
 .ardoise--level--full, .ardoise--level--empty {
 	color: black;
 }
+
+.ardoise--name {
+	color: white;
+}

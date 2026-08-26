@@ -11,7 +11,7 @@ let Frame from $import(../../core/components/frame)
 macro makeTitle(base, name)
 	$html.Span($base, class: ardoise--frame--title--prefix)
 	if name
-		\s$html.Span($name, class: ardoise--frame--title--name)
+		\s$html.Span($name, class: ardoise--frame--title--name ardoise--name)
 	end
 end
 
