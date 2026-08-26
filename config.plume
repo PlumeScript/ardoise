@@ -11,8 +11,8 @@ style: $empty
 
 ref paths: do
 	templates: $os.Path(./logic)
-	themes:    $os.Path(./themes)
-	scripts:   $os.Path(./scripts)
+	themes:    $os.Path(./static/css)
+	scripts:   $os.Path(./static/js)
 end
 
 macro getTemplateDir(name)
