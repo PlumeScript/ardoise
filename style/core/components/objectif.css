@@ -1,0 +1,16 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+.ardoise--objectif-count {
+	display: inline-flex;
+	align-items: center;
+    justify-content: center;
+    border-radius: var(--small-border-radius)%;
+    border: var(--small-border);
+	min-width: 1.25em;
+	min-height: 1.25em;
+}
