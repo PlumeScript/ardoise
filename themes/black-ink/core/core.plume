@@ -8,12 +8,6 @@ Licensed under the MIT License — see LICENSE for details.
 let loadFont from $import(pages)
 
 run $loadFont($os.Path(../../../fonts/Rosemary))
-
 run $loadFont($os.Path(../../../fonts/ABeeZee))
-run $loadFont($os.Path(../../../fonts/Averia_Libre))
-run $loadFont($os.Path(../../../fonts/Comfortaa))
-run $loadFont($os.Path(../../../fonts/Comic_Neue))
-run $loadFont($os.Path(../../../fonts/Sniglet))
-run $loadFont($os.Path(../../../fonts/Varela_Round))
 
 $Table()
