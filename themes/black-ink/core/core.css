@@ -4,3 +4,22 @@ This file is part of Ardoise - A Plume🪶 document generator
 Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
+:root {
+	--main-border: 3px solid black;
+	--main-border-radius: var(--space-xs);
+
+	--small-border: 2px solid black;
+	--small-border-radius: var(--space-xxs);
+
+	--main-shadow: calc(-1 * var(--space-1x)) var(--space-1x) black;
+	--small-shadow: calc(-1 * var(--space-xs)) var(--space-xs) black;
+
+	--font-title: "Rosemary";
+	--font-body: "ABeeZee";
+
+}
+
+html {
+	line-height: var(--leading-tight);
+}
+
