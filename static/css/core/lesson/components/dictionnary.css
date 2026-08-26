@@ -6,38 +6,41 @@ Licensed under the MIT License — see LICENSE for details.
 */
 
 .ardoise--dictionnary {
-	gap: 1rem;
-}
-
-.ardoise--dictionnary--sep {
-	width: 80%;
-	margin: auto;
-	border-bottom: 1px solid var(--light-element);
-}
-
-.ardoise--dictionnary--entry {
-}
-
-.ardoise--dictionnary--sep:last-child {
-	display: none;
+	display: grid;
+	gap: calc(2 * var(--space-1x)) calc(1 * var(--space-1x));
+	margin-right: auto;
 }
 
 .ardoise--dictionnary--name {
-	vertical-align: top;
 	font-size: 80%;
 	text-transform: capitalize;
 	color: var(--muted);
 	font-variant: small-caps;
-	padding-right: var(--space-1x);
-	
 }
 
-.ardoise--dictionnary--body {
-	
-	vertical-align: middle;
+.ardoise--dictionnary--name--body {
+	text-align: center;
 }
 
 .ardoise--dictionnary--name, .ardoise--dictionnary--body {
-	padding-top: var(--space-1x);
-	padding-bottom: var(--space-1x);
+	display: flex;
+}
+
+.ardoise--dictionnary--name {
+	justify-content: flex-end;
+	align-items: baseline;
+
+	/*Align center with formulas*/
+	&:has(+ .ardoise--dictionnary--body > .pages--math:first-child:nth-last-child(1)) {
+		align-items: center;
+	}
+}
+
+.ardoise--dictionnary--body {
+	flex-direction: column;
+	    justify-content: center;
+
+	&:has( > .pages--math:first-child:nth-last-child(1)) {
+		justify-content: center;
+	}
 }
