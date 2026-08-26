@@ -11,4 +11,5 @@ mjx-container {
 	padding-right: var(--space-xs);
 	border-radius: var(--space-xs);
 	display: inline-block;
+	margin: 0 !important;
 }
