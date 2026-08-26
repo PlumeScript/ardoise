@@ -5,12 +5,19 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
-let html = $import(html)
+let html    = $import(html)
+let context = $import(../../../context)
+let applyFormatNumbering from $import(pages)
 
 chapterTitle: macro(num, title)
+	let marker = $context.chapterTitleMark()
 	@html.H1(class: ardoise--frame ardoise--chapter-title)
 		@html.Span(class: ardoise--chapter-title--num)
-			$num
+			if num > 0
+				$ applyFormatNumbering(1, marker, Table(num))
+			else
+				0
+			end
 		end
 		@html.Span(class: ardoise--chapter-title--body)
 			$title

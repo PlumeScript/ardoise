@@ -26,6 +26,7 @@ let pages   = $import(pages)
 let html    = $import(html)
 let config  = $import(./config)
 let utils   = $import(./utils)
+let context = $import(./context)
 
 let param arg1  = lesson
 let param theme = core
@@ -35,6 +36,7 @@ let lib = $config.load($arg1, $theme)
 
 // Load libs
 let baseDocument = $ pages.Document
+ardoiseContext: $context
 ...pages
 for i in seq(1, len(lib.names))
 	let name = $lib.names[len(lib.names)-i+1]
