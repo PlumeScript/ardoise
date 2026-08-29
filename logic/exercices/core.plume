@@ -34,6 +34,12 @@ end
 macro InstructionRender(exercice, exerciceCount, marker, seed)
 	@html.Div(class: pages--to-flow ardoise--exercice-sheet--exercice ardoise--exercice-sheet--exercice-level-$(exercice.level? or 2))
 		@Frame(title: $makeExTitle($exercice, $exerciceCount, $marker))
+			@html.Div(,class: ardoise--exercice-sheet--exercice--infos)
+				dataObjective: $exercice.objective
+				dataExerciceCount: $exerciceCount
+				dataLevel: $exercice.level?
+				dataType: Instruction
+			end
 			$ exercice.generator.get(exerciceCount, seed: seed).render("instruction")
 		end
 	end
@@ -42,13 +48,19 @@ end
 macro SolutionRender(exercice, exerciceCount, marker, seed)
 	@html.Div(class: pages--to-flow ardoise--exercice-sheet--exercice ardoise--exercice-sheet--exercice-level-$(exercice.level? or 2) pages--to-flow ardoise--exercice-sheet--exercice-solution)
 		@Frame(title: $makeExTitle($exercice, $exerciceCount, $marker))
+			@html.Div(,class: ardoise--exercice-sheet--exercice--infos)
+				dataObjective: $exercice.objective
+				dataExerciceCount: $exerciceCount
+				dataLevel: $exercice.level?
+				dataType: Correction
+			end
 			$ exercice.generator.get(exerciceCount, seed: seed).render("solution")
 		end
 	end
 end
 
-macro SheetRender(rows, columns, callback, cellid:0, ?correction, ?todo)
-	@html.Div(class: pages--to-flow ardoise--exercice-sheet $(correction and "ardoise--exercice-sheet-correction"))
+macro SheetRender(rows, columns, callback, cellid:0, screen: screen, ?correction, ?todo)
+	@html.Div(class: pages--to-flow ardoise--exercice-sheet $(correction and "ardoise--exercice-sheet-correction") $(screen and "ardoise--exercice-sheet-screen"))
 		style: do
 			gridTemplateColumns: repeat($columns, 1fr)
 			gridTemplateRows: repeat($rows, 1fr)
@@ -66,22 +78,51 @@ macro SheetRender(rows, columns, callback, cellid:0, ?correction, ?todo)
 	end
 end
 
+macro makeScreenControl()
+	// @Frame
+		@html.Div(class: ardoise--exercice-sheet-screen--controls)
+			@html.Div(class: ardoise--select--obj)
+			end
+			@html.Div(class: ardoise--select--level)
+			end
+			@html.Div(class: ardoise--select--ex)
+			end
+			@html.Div(class: ardoise--toggle--correction)
+			end
+		end
+	// end
 
-ExerciceSheet: macro(seed:0, pageCount:, exerciceCount:, marker: Ex %1, ?todo, ...exercices)
+	@html.Div(class: ardoise--exercice-sheet-screen--display)
+	end
+end
+
+ExerciceSheet: macro(seed:0, pageCount:, exerciceCount:, marker: Ex %1, ?todo, ?screen, ...exercices)
 	let cellid = 1
-	@Table.join(sep: $pages.newpage)
+	@html.Script
+		\0let exerciceSheetScreenMode =
+		if screen
+			\strue
+		else
+			\sfalse
+		end
+		;
+	end
+	if screen
+		$makeScreenControl()
+	end
+	@Table.join(sep: $(not screen and pages.newpage))
 		for exercice in exercices
 			let exerciceTarget = $(exercice.count? or exerciceCount or 20)
 			let _pageCount = $ pageCount or (exerciceTarget/exercice.rows/exercice.columns).ceil()
 			let _marker    = $ exercice.marker? or marker
 			for i in seq(_pageCount)
-				- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, todo: $todo)
+				- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, todo: $todo, screen: $screen)
 					macro(exerciceCount)
 						$ InstructionRender(exercice, exerciceCount, _marker, seed)
 					end
 				end
 				if not todo
-					- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, ?correction)
+					- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, screen: $screen, ?correction)
 						macro(exerciceCount)
 							$ SolutionRender(exercice, exerciceCount, _marker, seed)
 						end

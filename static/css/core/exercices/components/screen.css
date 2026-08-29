@@ -1,0 +1,169 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+html:has(.ardoise--exercice-sheet-screen) {
+	font-size: 15pt;
+}
+.ardoise--exercice-sheet-screen {
+	display: none;
+}
+
+.ardoise--exercice-sheet-screen--controls {
+	margin-top: var(--space-2x);
+	padding: var(--space-1x);
+	display: flex;
+	align-items: center;
+	gap: var(--space-1x);
+	justify-content: center;
+}
+
+.ardoise--exercice-sheet-screen--display {
+	display: flex;
+}
+
+.ardoise--exercice-sheet--exercice {
+	border: none;
+}
+
+/* level selection: clickable stars, dimmed when not selected */
+.ardoise--select--level {
+	order: 1;
+	display: flex;
+	gap: var(--space-1x);
+}
+
+.ardoise--select--level > .ardoise--level {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	user-select: none;
+}
+
+.ardoise--level-disable {
+	opacity: 0.3;
+}
+
+.ardoise--select--level > .ardoise--level:hover {
+	opacity: 1;
+}
+
+/* custom select: value button + dropdown list */
+.ardoise--select {
+	position: relative;
+	display: inline-block;
+}
+
+.ardoise--select--value {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xxs);
+	font: inherit;
+	color: inherit;
+	padding: var(--space-xxs) var(--space-1x);
+	background: white;
+	border: var(--small-border);
+	border-radius: var(--small-border-radius);
+	cursor: pointer;
+	&::after {
+		content: "▾";
+		font-size: 80%;
+	}
+}
+
+.ardoise--select--options {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 100%;
+	margin-top: var(--space-xxs);
+	padding: var(--space-xxs);
+	background: white;
+	border: var(--small-border);
+	border-radius: var(--small-border-radius);
+	flex-direction: column;
+	gap: var(--space-xxs);
+	z-index: 10;
+}
+
+.ardoise--select--open .ardoise--select--options {
+	display: flex;
+}
+
+.ardoise--select--option {
+	padding: var(--space-xxs) var(--space-1x);
+	border-radius: var(--small-border-radius);
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.ardoise--select--option:hover {
+	background: var(--answer-color-bg);
+}
+
+.ardoise--select--option--selected {
+	font-weight: bold;
+}
+
+/* random exercise button, next to the exercise select */
+.ardoise--select--ex {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xxs);
+}
+
+.ardoise--select--random {
+	font: inherit;
+	color: inherit;
+	line-height: 1;
+	padding: var(--space-xxs);
+	background: white;
+	border: var(--small-border);
+	border-radius: var(--small-border-radius);
+	cursor: pointer;
+}
+
+.ardoise--select--random:hover {
+	background: var(--answer-color-bg);
+}
+
+/* correction toggle */
+.ardoise--toggle--correction {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1x);
+	cursor: pointer;
+	user-select: none;
+}
+
+.ardoise--toggle {
+	position: relative;
+	display: inline-block;
+	width: 3em;
+	height: 1.5em;
+	background: white;
+	border: var(--small-border);
+	border-radius: 100em;
+}
+
+.ardoise--toggle--knob {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0.2em;
+	width: 1.1em;
+	height: 1.1em;
+	border-radius: 50%;
+	background: var(--answer-color-bg);
+	transition: background 150ms;
+}
+
+.ardoise--toggle--on .ardoise--toggle--knob {
+	left: auto;
+	right: 0.2em;
+	background: black;
+}
