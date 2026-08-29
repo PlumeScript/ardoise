@@ -1,0 +1,34 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+.pages--list--item:has(> .pages--list--item--body mjx-container) {
+	align-items: center;
+}
+
+.pages--list--item--bullet {
+	border: var(--small-border);
+	box-shadow: var(--very-small-shadow);
+	min-width: 1.75em;
+	min-height: 1.75em;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+    color: black;
+    border-radius: 25%;
+}
+
+.ardoise--exercice-sheet--exercice-level-1 .pages--list--item--bullet {
+	border-radius: 50%;
+}
+.ardoise--exercice-sheet--exercice-level-2 .pages--list--item--bullet {
+}
+.ardoise--exercice-sheet--exercice-level-3 .pages--list--item--bullet {
+	border-radius: var(--small-border);
+	background: black;
+	color: white;
+	box-shadow: none;
+}
