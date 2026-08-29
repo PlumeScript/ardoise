@@ -67,7 +67,7 @@ end
 
 macro getScript(path)
 	if path
-		for component in (path / "components").walk()
+		for component in path.walk()
 			if component.getExtension() == "js"
 				$component.read()
 			end
