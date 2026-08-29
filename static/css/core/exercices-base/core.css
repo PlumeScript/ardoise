@@ -1,0 +1,29 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+:root {
+	--page-margin-top: 0mm;
+	--page-margin-bottom: 0mm;
+	--page-margin-left: 0mm;
+	--page-margin-right: 0mm;
+}
+
+
+.ardoise--exercice-sheet {
+	display: grid;
+	gap: 0;
+	height: 100%;
+	justify-items: center;
+    align-items: stretch;
+}
+
+.ardoise--exercice-sheet-correction {
+	direction: rtl;
+}
+
+.ardoise--exercice-sheet-correction > * {
+	direction: ltr;
+}

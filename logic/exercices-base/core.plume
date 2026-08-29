@@ -5,4 +5,98 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
-$Table()
+let pages = $import(pages)
+let html  = $import(html)
+let Frame from $import(../core/components/frame)
+
+macro makeExTitle(exercice, exerciceCount)
+	@html.Div(class: ardoise--exercice-sheet--exercice--title)
+		@html.Div(class: ardoise--exercice-sheet--exercice--title--obj)
+			Obj $html.Span($exercice.objective, class: ardoise--objectif-count)
+		end
+		@html.Div(class: ardoise--exercice-sheet--exercice--title--no)
+			Ex $exerciceCount
+		end
+		if exercice.level?
+			@html.Div(class: ardoise--level)
+				for in in seq(exercice.level)
+					$html.Span(,class: ardoise--level--full)
+				end
+				for in in seq((exercice.maxLevel? or 3) - exercice.level)
+					$html.Span(,class: ardoise--level--empty)
+				end
+			end
+		end
+	end
+end
+
+macro InstructionRender(exercice, exerciceCount, seed)
+	@html.Div(class: pages--to-flow ardoise--exercice-sheet--exercice ardoise--exercice-sheet--exercice-level-$(exercice.level? or 2))
+		@Frame(title: $makeExTitle($exercice, $exerciceCount))
+			$ exercice.generator.get(exerciceCount, seed: seed).render("instruction")
+		end
+	end
+end
+
+macro SolutionRender(exercice, exerciceCount, seed)
+	@html.Div(class: pages--to-flow ardoise--exercice-sheet--exercice ardoise--exercice-sheet--exercice-level-$(exercice.level? or 2) pages--to-flow ardoise--exercice-sheet--exercice-solution)
+		@Frame(title: $makeExTitle($exercice, $exerciceCount))
+			$ exercice.generator.get(exerciceCount, seed: seed).render("solution")
+		end
+	end
+end
+
+macro SheetRender(rows, columns, callback, cellid:0, ?correction)
+	@html.Div(class: pages--to-flow ardoise--exercice-sheet $(correction and "ardoise--exercice-sheet-correction"))
+		style: do
+			gridTemplateColumns: repeat($columns, 1fr)
+			gridTemplateRows: repeat($rows, 1fr)
+		end
+		- do
+			for row in seq(rows)
+				for column in seq(columns)
+					set cellid += 1
+					$ callback(cellid)
+				end
+			end
+		end
+	end
+end
+
+
+ExerciceSheet: macro(seed:0, pageCount:, ...exercices)
+	let cellid = 0
+	@Table.join(sep: $pages.newpage)
+		for exercice in exercices
+			let exerciceTarget = $(exercice.count? or 20)
+			set pageCount = $ pageCount or (exerciceTarget/exercice.rows/exercice.columns).ceil()
+			for i in seq(pageCount)
+				- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid)
+					macro(exerciceCount)
+						$ InstructionRender(exercice, exerciceCount, seed)
+					end
+				end
+				- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, ?correction)
+					macro(exerciceCount)
+						$ SolutionRender(exercice, exerciceCount, seed)
+					end
+				end
+				set cellid += $(exercice.rows*exercice.columns)
+			end
+		end
+	end
+end
+
+ref Exercice: macro(level:, Number rows: 2, Number columns: 2, generator:, objective:, instruction:)
+	level: $level
+	rows: $rows
+	columns: $columns
+	generator: $generator
+	objective: $objective
+end
+
+ExerciceList: macro(...args)
+	@Exercice
+		...args
+	end
+end

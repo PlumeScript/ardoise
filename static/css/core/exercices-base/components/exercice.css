@@ -1,0 +1,67 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+.ardoise--exercice-sheet--exercice {
+	width: 100%;
+	border: 1px dashed grey;
+	display: flex;
+	align-items: stretch;
+	justify-content: center;
+	flex-direction: column;
+	padding: var(--space-4x);
+	> .ardoise--frame {
+		padding-top: var(--space-3x);
+	}
+}
+
+.ardoise--exercice-sheet--exercice > .ardoise--frame {
+	position: relative;
+}
+
+.ardoise--exercice-sheet--exercice > .ardoise--frame > .ardoise--frame--title {
+	font-size: 100%;
+	top: 0;
+	left: var(--space-2x);
+	transform: translateY(-50%);
+	margin: 0;
+}
+
+.ardoise--exercice-sheet--exercice--title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: normal;
+	gap: var(--space-xs);
+
+	> .ardoise--exercice-sheet--exercice--title--obj  {
+		display: flex;
+		align-items: center;
+		gap: var(--space-xs);
+	}
+}
+
+.ardoise--exercice-sheet--exercice--title--obj {
+	font-weight: bold;
+}
+
+.ardoise--exercice-sheet--exercice-level-1 {
+	> .ardoise--frame {
+		border-radius: calc(4*var(--main-border-radius));
+	}
+}
+
+.ardoise--exercice-sheet--exercice-level-2 {
+	> .ardoise--frame {
+		border-radius: calc(2*var(--main-border-radius));
+	}
+}
+
+.ardoise--exercice-sheet--exercice-level-3 {
+	> .ardoise--frame {
+		border-radius: 0;
+	}
+}
