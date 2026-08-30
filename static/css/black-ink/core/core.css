@@ -28,6 +28,10 @@ html {
 	line-height: var(--leading-tight);
 }
 
-.ardoise--level--full, .ardoise--level--empty {
-	color: var(--muted);
+.ardoise--level--full,  {
+	color: black;
+}
+
+.ardoise--level--empty {
+	display: none;
 }

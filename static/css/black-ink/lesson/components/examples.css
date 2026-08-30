@@ -6,10 +6,22 @@ Licensed under the MIT License — see LICENSE for details.
 */
 
 .ardoise--examples--answer {
-	border: var(--very-small-border);
+	border: var(--small-border);
+	background: none;
+
 }
 
 .ardoise--examples--answer:not(.ardoise--examples--answer-short) {
 	border: var(--small-border);
+	padding-left: var(--space-2x);
 }
 
+.ardoise--examples--answer--tag {
+	color: black;
+	top: 0;
+	transform: translateY(-50%);
+	background: white;
+	font-size: 60%;
+	font-weight: bold;
+	padding: 0 var(--space-xs) 0 var(--space-xs);
+}

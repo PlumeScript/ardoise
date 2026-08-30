@@ -5,12 +5,18 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
+.ardoise--dictionnary {
+    column-gap: 0 !important;
+}
 .ardoise--dictionnary--name--body {
-    font-size: 100%;
+    color: black;
+    font-size: 80%;
     font-variant: none;
-    font-family: var(--font-title);
-    color: white;
-    background: var(--muted);
-    border-radius: var(--small-border-radius);
-    padding: var(--space-xs);
+    /*font-weight: bold;*/
+    font-style: italic;
+}
+
+.ardoise--dictionnary--name--body::after {
+    content: "—";
+    padding: 0 var(--space-xs) 0 var(--space-xs);
 }
