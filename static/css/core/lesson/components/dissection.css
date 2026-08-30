@@ -10,7 +10,7 @@ Licensed under the MIT License — see LICENSE for details.
 	   Must stay wide enough for the link lines: show-gap + legend-gap + the line itself. */
 	--ardoise--dissection-label-offset: 1.5em;
 	/* Minimum gap enforced between two legend labels */
-	--ardoise--dissection-label-gap: 0.75em;
+	--ardoise--dissection-label-gap: 1.5em;
 	/* Extra vertical distance between two label rows, 0 = rows touching (applied by the script) */
 	--ardoise--dissection-label-row-gap: 3em;
 	/* Gap between a link's top end and the word's bottom edge (applied by the script) */
