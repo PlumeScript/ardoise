@@ -135,10 +135,12 @@ Licensed under the MIT License — see LICENSE for details.
 				if (!block.offsetWidth) return
 				const s = scaleOf(svg, block)
 				const box = block.getBoundingClientRect()
+				// Number of label rows, fixed by the block's data-rows (1 = one line)
+				const rows = Math.max(1, parseInt(block.dataset.rows, 10) || 1)
 
-				// Keep the legend's natural one-line height (captured on first run)
+				// Keep the legend's natural line height (captured on first run)
 				if (legend._ardNaturalH == null) legend._ardNaturalH = legend.offsetHeight
-				setStyle(legend, 'height', px(legend._ardNaturalH))
+				setStyle(legend, 'height', px(legend._ardNaturalH * rows))
 				// Band between the --show line and the labels, room for the link lines
 				setStyle(legend, 'marginTop', px(cssLen(block, '--ardoise--dissection-label-offset', 32)))
 
@@ -159,25 +161,36 @@ Licensed under the MIT License — see LICENSE for details.
 					it.left = (wr.left - legendBox.left + wr.width / 2) / s - it.w / 2
 					it.wordCenter = (wr.left + wr.width / 2 - box.left) / s
 					it.lineStart = (wr.bottom - box.top + showGap) / s
-					it.lineEnd = (lr.top - box.top - legendGap) / s
 				}
 
-				// Keep word order, then place the labels: isotonic regression
+				// Keep word order, then deal the labels round-robin over the
+				// rows (1,3,5.. on row 0, 2,4.. on row 1, ...), each row
+				// keeping the word order. Within a row, isotonic regression
 				// over the non-overlap constraints minimizes the total
 				// displacement, so the link angles are evened out instead of
 				// piling up on the last label. The row may extend past the
 				// block when the block is narrower than the label row.
 				const ordered = [...items].sort((a, b) => a.left - b.left)
-				const d = new Array(ordered.length)
-				for (let i = 0; i < ordered.length; i++)
-					d[i] = i === 0 ? 0 : d[i - 1] + ordered[i - 1].w + gap
-				const v = isotonic(ordered.map((it, i) => it.left - d[i]))
-				for (let i = 0; i < ordered.length; i++)
-					ordered[i].left = d[i] + Math.max(0, v[i])
+				for (let r = 0; r < rows; r++) {
+					const row = []
+					for (let i = r; i < ordered.length; i += rows) row.push(ordered[i])
+					const d = new Array(row.length)
+					for (let i = 0; i < row.length; i++)
+						d[i] = i === 0 ? 0 : d[i - 1] + row[i - 1].w + gap
+					const v = isotonic(row.map((it, i) => it.left - d[i]))
+					for (let i = 0; i < row.length; i++)
+						row[i].left = d[i] + Math.max(0, v[i])
+				}
 
-				for (const it of ordered) {
+				// Rows stack down from the legend's top; each link ends a gap
+				// above the row it faces
+				const legendTop = (legendBox.top - box.top) / s
+				for (let i = 0; i < ordered.length; i++) {
+					const it = ordered[i]
+					it.top = (i % rows) * legend._ardNaturalH
+					it.lineEnd = legendTop + it.top - legendGap
 					setStyle(it.el, 'position', 'absolute')
-					setStyle(it.el, 'top', '0')
+					setStyle(it.el, 'top', px(it.top))
 					setStyle(it.el, 'left', px(it.left))
 				}
 
