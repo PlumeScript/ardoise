@@ -12,7 +12,7 @@ Licensed under the MIT License — see LICENSE for details.
 	/* Minimum gap enforced between two legend labels */
 	--ardoise--dissection-label-gap: 0.75em;
 	/* Extra vertical distance between two label rows, 0 = rows touching (applied by the script) */
-	--ardoise--dissection-label-row-gap: 1em;
+	--ardoise--dissection-label-row-gap: 3em;
 	/* Gap between a link's top end and the word's bottom edge (applied by the script) */
 	--ardoise--dissection-show-gap: 0.1em;
 	/* Gap between a link's bottom end and a label's top edge (applied by the script) */
@@ -33,8 +33,7 @@ Licensed under the MIT License — see LICENSE for details.
 	overflow: visible;
 }
 
-.ardoise--dissection--links polyline {
-	fill: none;
+.ardoise--dissection--links line {
 	stroke: var(--light-element, #999);
 	stroke-width: 1;
 }

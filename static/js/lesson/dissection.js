@@ -174,10 +174,14 @@ Licensed under the MIT License — see LICENSE for details.
 				// displacement, so the link angles are evened out instead of
 				// piling up on the last label. The row may extend past the
 				// block when the block is narrower than the label row.
+				// With two rows, line-2 labels skip the constraints: they
+				// are aimed below, onto the straight link that threads the
+				// nearest line-1 gap (the label gap keeps the link clear).
 				const ordered = [...items].sort((a, b) => a.left - b.left)
 				for (let r = 0; r < rows; r++) {
 					const row = []
 					for (let i = r; i < ordered.length; i += rows) row.push(ordered[i])
+					if (rows === 2 && r === 1) continue
 					const d = new Array(row.length)
 					for (let i = 0; i < row.length; i++)
 						d[i] = i === 0 ? 0 : d[i - 1] + row[i - 1].w + gap
@@ -194,63 +198,46 @@ Licensed under the MIT License — see LICENSE for details.
 					it.row = i % rows
 					it.top = it.row * (rowH + rowGap)
 					it.lineEnd = legendTop + it.top - legendGap
+				}
+				// With two rows, aim each line-2 label: its link is a
+				// straight line from the word through the nearest line-1
+				// gap (label gap + margins), and the label lands on the
+				// line's lower end
+				if (rows === 2) {
+					const top = ordered.filter(it => it.row === 0)
+					const chans = [legendL + top[0].left - gap]
+					for (let i = 0; i + 1 < top.length; i++)
+						chans.push((legendL + top[i].left + top[i].w + legendL + top[i + 1].left) / 2)
+					chans.push(legendL + top[top.length - 1].left + top[top.length - 1].w + gap)
+					const yMid = legendTop + legend._ardNaturalH / 2
+					const yT = legendTop + (rowH + rowGap) - legendGap
+					for (const it of ordered) {
+						if (it.row !== 1) continue
+						const x0 = it.wordCenter, y0 = it.lineStart
+						let xc = chans[0]
+						for (const c of chans) if (Math.abs(c - x0) < Math.abs(xc - x0)) xc = c
+						it.left = xc + (xc - x0) * (yT - yMid) / (yMid - y0) - legendL - it.w / 2
+					}
+				}
+				for (const it of ordered) {
 					setStyle(it.el, 'position', 'absolute')
 					setStyle(it.el, 'top', px(it.top))
 					setStyle(it.el, 'left', px(it.left))
 				}
 
-				// One line per pair. With two rows, a line-2 link that would
-				// cut a line-1 label is rerouted vertically through the
-				// nearest line-1 gap, so it cannot cross a label. (Three rows
-				// and up would have to thread two rows of gaps: not attempted,
-				// the links stay straight.)
-				for (const it of ordered) {
-					const x1 = legendL + it.left + it.w / 2
-					it.pts = [[it.wordCenter, it.lineStart], [x1, it.lineEnd]]
-				}
-				if (rows === 2) {
-					const bandTop = legendTop
-					const bandBot = legendTop + legend._ardNaturalH
-					const rects = ordered.filter(it => it.row === 0)
-						.map(it => [legendL + it.left, legendL + it.left + it.w])
-					for (const it of ordered) {
-						if (it.row !== 1) continue
-						const x0 = it.wordCenter, y0 = it.lineStart
-						const x1 = it.pts[1][0], y1 = it.lineEnd
-						// y-range the link spends inside the line-1 band
-						const yA = bandTop
-						const yB = Math.min(bandBot, y1)
-						if (y1 <= y0 || yB <= yA) continue
-						// x of the link at the band edges (x is monotonic in y)
-						const xa = x0 + (x1 - x0) * (yA - y0) / (y1 - y0)
-						const xb = x0 + (x1 - x0) * (yB - y0) / (y1 - y0)
-						const lo = Math.min(xa, xb), hi = Math.max(xa, xb)
-						let cross = false
-						for (const [a, b] of rects)
-							if (hi > a && lo < b) { cross = true; break }
-						if (!cross) continue
-						// Gaps: between consecutive line-1 labels + the two
-						// outer margins; take the one nearest the link
-						const gaps = [rects[0][0] - gap]
-						for (let i = 0; i + 1 < rects.length; i++)
-							gaps.push((rects[i][1] + rects[i + 1][0]) / 2)
-						gaps.push(rects[rects.length - 1][1] + gap)
-						const xm = (xa + xb) / 2
-						let xc = gaps[0]
-						for (const g of gaps) if (Math.abs(g - xm) < Math.abs(xc - xm)) xc = g
-						it.pts = [[x0, y0], [xc, yA], [xc, yB], [x1, y1]]
-					}
-				}
-
-				// Rebuilt only when it changes
-				const sig = ordered.map(it => it.pts.map(p => p.join(',')).join(' ')).join(';')
+				// One straight line per pair, rebuilt only when it changes
+				const sig = ordered.map(it =>
+					`${it.wordCenter}|${it.lineStart}|${legendL + it.left + it.w / 2}|${it.lineEnd}`).join(';')
 				if (sig !== state.lastLines) {
 					state.lastLines = sig
 					svg.replaceChildren()
 					for (const it of ordered) {
-						const pl = document.createElementNS(NS, 'polyline')
-						pl.setAttribute('points', it.pts.map(p => p.map(v => Math.round(v * 100) / 100).join(',')).join(' '))
-						svg.appendChild(pl)
+						const line = document.createElementNS(NS, 'line')
+						line.setAttribute('x1', it.wordCenter)
+						line.setAttribute('y1', it.lineStart)
+						line.setAttribute('y2', it.lineEnd)
+						line.setAttribute('x2', legendL + it.left + it.w / 2)
+						svg.appendChild(line)
 					}
 				}
 			}
