@@ -11,14 +11,17 @@ Licensed under the MIT License — see LICENSE for details.
 	--ardoise--dissection-label-offset: 1.5em;
 	/* Minimum gap enforced between two legend labels */
 	--ardoise--dissection-label-gap: 0.75em;
+	/* Extra vertical distance between two label rows, 0 = rows touching (applied by the script) */
+	--ardoise--dissection-label-row-gap: 1em;
 	/* Gap between a link's top end and the word's bottom edge (applied by the script) */
 	--ardoise--dissection-show-gap: 0.1em;
 	/* Gap between a link's bottom end and a label's top edge (applied by the script) */
 	--ardoise--dissection-legend-gap: 0em;
+
 	position: relative;
 }
 
-/* Overlay drawn by the script, one straight line per word/label pair */
+/* Overlay drawn by the script, one line per word/label pair */
 .ardoise--dissection--links {
 	position: absolute;
 	top: 0;
@@ -30,7 +33,8 @@ Licensed under the MIT License — see LICENSE for details.
 	overflow: visible;
 }
 
-.ardoise--dissection--links line {
+.ardoise--dissection--links polyline {
+	fill: none;
 	stroke: var(--light-element, #999);
 	stroke-width: 1;
 }

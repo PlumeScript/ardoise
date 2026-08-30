@@ -137,10 +137,14 @@ Licensed under the MIT License — see LICENSE for details.
 				const box = block.getBoundingClientRect()
 				// Number of label rows, fixed by the block's data-rows (1 = one line)
 				const rows = Math.max(1, parseInt(block.dataset.rows, 10) || 1)
+				// Extra distance between two label rows (0 = rows touching)
+				const rowGap = cssLen(block, '--ardoise--dissection-label-row-gap', parseFloat(getComputedStyle(block).fontSize))
+				// One label row of text: font size, without line-height leading
+				const rowH = parseFloat(getComputedStyle(legend).fontSize) / s
 
 				// Keep the legend's natural line height (captured on first run)
 				if (legend._ardNaturalH == null) legend._ardNaturalH = legend.offsetHeight
-				setStyle(legend, 'height', px(legend._ardNaturalH * rows))
+				setStyle(legend, 'height', px(legend._ardNaturalH + (rows - 1) * (rowH + rowGap)))
 				// Band between the --show line and the labels, room for the link lines
 				setStyle(legend, 'marginTop', px(cssLen(block, '--ardoise--dissection-label-offset', 32)))
 
@@ -187,26 +191,66 @@ Licensed under the MIT License — see LICENSE for details.
 				const legendTop = (legendBox.top - box.top) / s
 				for (let i = 0; i < ordered.length; i++) {
 					const it = ordered[i]
-					it.top = (i % rows) * legend._ardNaturalH
+					it.row = i % rows
+					it.top = it.row * (rowH + rowGap)
 					it.lineEnd = legendTop + it.top - legendGap
 					setStyle(it.el, 'position', 'absolute')
 					setStyle(it.el, 'top', px(it.top))
 					setStyle(it.el, 'left', px(it.left))
 				}
 
-				// One straight line per pair, rebuilt only when it changes
-				const sig = ordered.map(it =>
-					`${it.wordCenter}|${it.lineStart}|${legendL + it.left + it.w / 2}|${it.lineEnd}`).join(';')
+				// One line per pair. With two rows, a line-2 link that would
+				// cut a line-1 label is rerouted vertically through the
+				// nearest line-1 gap, so it cannot cross a label. (Three rows
+				// and up would have to thread two rows of gaps: not attempted,
+				// the links stay straight.)
+				for (const it of ordered) {
+					const x1 = legendL + it.left + it.w / 2
+					it.pts = [[it.wordCenter, it.lineStart], [x1, it.lineEnd]]
+				}
+				if (rows === 2) {
+					const bandTop = legendTop
+					const bandBot = legendTop + legend._ardNaturalH
+					const rects = ordered.filter(it => it.row === 0)
+						.map(it => [legendL + it.left, legendL + it.left + it.w])
+					for (const it of ordered) {
+						if (it.row !== 1) continue
+						const x0 = it.wordCenter, y0 = it.lineStart
+						const x1 = it.pts[1][0], y1 = it.lineEnd
+						// y-range the link spends inside the line-1 band
+						const yA = bandTop
+						const yB = Math.min(bandBot, y1)
+						if (y1 <= y0 || yB <= yA) continue
+						// x of the link at the band edges (x is monotonic in y)
+						const xa = x0 + (x1 - x0) * (yA - y0) / (y1 - y0)
+						const xb = x0 + (x1 - x0) * (yB - y0) / (y1 - y0)
+						const lo = Math.min(xa, xb), hi = Math.max(xa, xb)
+						let cross = false
+						for (const [a, b] of rects)
+							if (hi > a && lo < b) { cross = true; break }
+						if (!cross) continue
+						// Gaps: between consecutive line-1 labels + the two
+						// outer margins; take the one nearest the link
+						const gaps = [rects[0][0] - gap]
+						for (let i = 0; i + 1 < rects.length; i++)
+							gaps.push((rects[i][1] + rects[i + 1][0]) / 2)
+						gaps.push(rects[rects.length - 1][1] + gap)
+						const xm = (xa + xb) / 2
+						let xc = gaps[0]
+						for (const g of gaps) if (Math.abs(g - xm) < Math.abs(xc - xm)) xc = g
+						it.pts = [[x0, y0], [xc, yA], [xc, yB], [x1, y1]]
+					}
+				}
+
+				// Rebuilt only when it changes
+				const sig = ordered.map(it => it.pts.map(p => p.join(',')).join(' ')).join(';')
 				if (sig !== state.lastLines) {
 					state.lastLines = sig
 					svg.replaceChildren()
 					for (const it of ordered) {
-						const line = document.createElementNS(NS, 'line')
-						line.setAttribute('x1', it.wordCenter)
-						line.setAttribute('y1', it.lineStart)
-						line.setAttribute('y2', it.lineEnd)
-						line.setAttribute('x2', legendL + it.left + it.w / 2)
-						svg.appendChild(line)
+						const pl = document.createElementNS(NS, 'polyline')
+						pl.setAttribute('points', it.pts.map(p => p.map(v => Math.round(v * 100) / 100).join(',')).join(' '))
+						svg.appendChild(pl)
 					}
 				}
 			}
