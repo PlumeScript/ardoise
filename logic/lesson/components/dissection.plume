@@ -10,7 +10,7 @@ let html = $import(html)
 
 let dissectionCount = 0
 // Render text with named arrow
-ref Dissection: macro(finalize:, ?math, ...entries)
+ref Dissection: macro(finalize:, rows: 1, ?math, ...entries)
 	set dissectionCount += 1
 
 	macro makeid(i)
@@ -38,7 +38,7 @@ ref Dissection: macro(finalize:, ?math, ...entries)
 		set show = $ finalize(show)
 	end
 
-	@html.Div(class: ardoise--dissection)
+	@html.Div(class: ardoise--dissection, dataRows: $rows)
 		@html.Div(class: ardoise--dissection--show)
 			$show
 		end
