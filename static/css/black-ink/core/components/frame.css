@@ -31,3 +31,12 @@ Licensed under the MIT License — see LICENSE for details.
 .ardoise--frame--title--prefix, .ardoise--frame--title--name {
 	color: white;
 }
+
+.pages--text--boxed {
+	border: var(--small-border);
+	border-radius: var(--main-border-radius);
+	padding-left: var(--space-1x);
+	padding-right: var(--space-1x);
+	padding-top: var(--space-xxs);
+	padding-bottom: var(--space-xxs);
+}
