@@ -36,24 +36,11 @@ Licensed under the MIT License — see LICENSE for details.
 	align-items: center;
 }
 
-.ardoise--examples--question--prefix::before {
-	content: "•";
-	padding-right: var(--space-1x);
-}
-
 .ardoise--examples--question > .ardoise--level {
 	display: inline-block;
 	flex-grow: 1;
 	text-align: right;
 	padding-right: var(--space-1x);
-}
-
-.ardoise--examples--question:has(+ .ardoise--examples--answer-short) > .ardoise--level {
-	letter-spacing: -0.4rem;
-	font-size: 80%;
-	& > .ardoise--level--empty {
-		display: none;
-	}
 }
 
 .ardoise--examples--answer--tag {

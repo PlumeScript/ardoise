@@ -10,3 +10,9 @@ Licensed under the MIT License — see LICENSE for details.
 	color: var(--muted);
 	font-variant: small-caps;
 }
+
+.ardoise--level--compact {
+	display: inline-block;
+	letter-spacing: -0.4em;
+	padding-right: 0.4em;
+}

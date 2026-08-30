@@ -22,7 +22,7 @@ Examples: macro(columns:1, gap:, ...entries)
 		for entry in entries
 			@html.Div(class: ardoise--examples--item pages--to-flow)
 				let level = if entry.level?
-					@html.Div(class: ardoise--level)
+					@html.Span(class: ardoise--level ardoise--level--compact)
 						for in in seq(entry.level)
 							$html.Span(,class: ardoise--level--full)
 						end
@@ -40,13 +40,12 @@ Examples: macro(columns:1, gap:, ...entries)
 						@html.Div(class: ardoise--examples--question--body pages--to-flow)
 							@instruction
 								@html.Span(class: ardoise--examples--question--prefix)
-									Question
+									$level Question
 								end
 							end
 						
 							$entry.question
 						end
-						$level
 					end
 						
 					@html.Div(class: ardoise--examples--answer pages--to-flow)
