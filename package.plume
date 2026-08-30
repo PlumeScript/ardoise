@@ -1,8 +1,8 @@
-plumeVersion: b64 (Raven Edition)
+plumeVersion: b65 (Raven Edition)
 name: Ardoise
 author: Erwan Barbedor
 description: Document generator library for Plume, specializing in course materials
-version: 0.3.0
+version: 0.4.0
 source: $("https://github.com/PlumeScript/ardoise")
 required: do
 	pages: do
