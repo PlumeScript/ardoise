@@ -142,8 +142,16 @@ Licensed under the MIT License — see LICENSE for details.
 				// One label row of text: font size, without line-height leading
 				const rowH = parseFloat(getComputedStyle(legend).fontSize) / s
 
-				// Keep the legend's natural line height (captured on first run)
-				if (legend._ardNaturalH == null) legend._ardNaturalH = legend.offsetHeight
+				// One line of the legend's text, in local units, captured on
+				// first run with a probe glyph: the legend's own height can
+				// span several wrapped lines of inline labels
+				if (legend._ardNaturalH == null) {
+					const probe = document.createElement('span')
+					probe.textContent = 'x'
+					legend.appendChild(probe)
+					legend._ardNaturalH = probe.getBoundingClientRect().height / s
+					probe.remove()
+				}
 				setStyle(legend, 'height', px(legend._ardNaturalH + (rows - 1) * (rowH + rowGap)))
 				// Band between the --show line and the labels, room for the link lines
 				setStyle(legend, 'marginTop', px(cssLen(block, '--ardoise--dissection-label-offset', 32)))
