@@ -25,3 +25,7 @@ Licensed under the MIT License — see LICENSE for details.
 	font-weight: bold;
 	padding: 0 var(--space-xs) 0 var(--space-xs);
 }
+
+.ardoise--examples--item {
+	gap: var(--space-1x);
+}
