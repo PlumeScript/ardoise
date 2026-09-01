@@ -47,13 +47,13 @@ end
 // Overwrite Document to inject CSS
 Document: macro(content, ...args)
 	@baseDocument(...args)
-		@html.Style
+		@pages.Style
 			for i in seq(1, len(lib.names))
 				let name = $lib.names[len(lib.names)-i+1]
 				$lib.theme[name]
 			end
 		end
-		@html.Script
+		@pages.Script
 			document.addEventListener('DOMContentLoaded', async function () {
 				await window.__pagesReady;
 				for i in seq(1, len(lib.names))
