@@ -5,7 +5,28 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
-
-.ardoise--objectif-count {
+.ardoise--objective-count {
+    border: none !important;
+    background: white;
+    color: black;
     border-radius: 50%;
+    font-weight: bold;
+}
+
+.ardoise--objective-count.ardoise--objective-count-1 {
+    border-radius: 50%;
+}
+
+.ardoise--objective-count.ardoise--objective-count-2 {
+    border-radius: var(--main-border-radius);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.ardoise--objective-count.ardoise--objective-count-3 {
+    border-radius: var(--main-border-radius);
+}
+
+.ardoise--objective-count.ardoise--objective-count-4 {
+    border-radius: var(--main-border-radius);
+    clip-path: polygon(70% 0, 90% 50%, 70% 100%, 10% 100%, 25% 50%, 10% 0);
 }

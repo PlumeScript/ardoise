@@ -13,7 +13,7 @@ let applyFormatNumbering from $import(pages)
 macro makeExTitle(exercice, exerciceCount, marker)
 	@html.Div(class: ardoise--exercice-sheet--exercice--title)
 		@html.Div(class: ardoise--exercice-sheet--exercice--title--obj)
-			Obj $html.Span($exercice.objective, class: ardoise--objectif-count)
+			Obj $html.Span($exercice.objective, class: ardoise--objective-count ardoise--objective-count-$exercice.objective)
 		end
 		@html.Div(class: ardoise--exercice-sheet--exercice--title--no)
 			$ applyFormatNumbering(1, marker, Table(exerciceCount))

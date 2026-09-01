@@ -14,3 +14,20 @@ Licensed under the MIT License — see LICENSE for details.
 	min-width: 1.4em;
 	min-height: 1.4em;
 }
+
+.ardoise--objective-count.ardoise--objective-count-1 {
+    
+}
+
+.ardoise--objective-count.ardoise--objective-count-2 {
+    border-style: dashed;
+}
+
+.ardoise--objective-count.ardoise--objective-count-3 {
+    border-radius: 50%;
+}
+
+.ardoise--objective-count.ardoise--objective-count-4 {
+    border-style: dashed;
+    border-radius: 50%;
+}
