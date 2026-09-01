@@ -48,6 +48,14 @@ Licensed under the MIT License — see LICENSE for details.
 	font-weight: bold;
 }
 
+/* the level is nested in the --no element; keep it inline after the
+   number with the same gap the title row used to provide */
+.ardoise--exercice-sheet--exercice--title--no {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+}
+
 .ardoise--exercice-sheet--exercice-level-1 {
 	> .ardoise--frame {
 		border-radius: calc(4*var(--main-border-radius));

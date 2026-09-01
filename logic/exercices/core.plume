@@ -18,14 +18,16 @@ macro makeExTitle(exercice, exerciceCount, marker)
 		end
 		@html.Div(class: ardoise--exercice-sheet--exercice--title--no)
 			$ applyFormatNumbering(1, marker, Table(exerciceCount))
-		end
-		if exercice.level?
-			@html.Div(class: ardoise--level)
-				for in in seq(exercice.level)
-					$html.Span(,class: ardoise--level--full)
-				end
-				for in in seq((exercice.maxLevel? or 3) - exercice.level)
-					$html.Span(,class: ardoise--level--empty)
+			// the level is anchored to the exercise number so themes can
+			// position it relative to the "Ex N" element
+			if exercice.level?
+				@html.Div(class: ardoise--level)
+					for in in seq(exercice.level)
+						$html.Span(,class: ardoise--level--full)
+					end
+					for in in seq((exercice.maxLevel? or 3) - exercice.level)
+						$html.Span(,class: ardoise--level--empty)
+					end
 				end
 			end
 		end
