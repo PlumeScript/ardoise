@@ -82,7 +82,6 @@ if (exerciceSheetMode == "screen") {
 
 		var options = [];
 		var value = null;
-		var onChange = null;
 		var api = null;
 
 		function htmlFor(v) {
@@ -136,8 +135,9 @@ if (exerciceSheetMode == "screen") {
 						value = option.value;
 						render();
 						close();
-						if (onChange) {
-							onChange();
+						// api.onChange is assigned by the caller after buildSelect
+						if (api && api.onChange) {
+							api.onChange();
 						}
 					});
 					optionsBox.appendChild(el);
