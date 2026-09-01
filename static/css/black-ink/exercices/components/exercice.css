@@ -19,12 +19,7 @@ Licensed under the MIT License — see LICENSE for details.
 .ardoise--exercice-sheet--exercice > * > * > *> .ardoise--level {
 	position: absolute;
 	bottom: 0%;
-	/* span the title box (shrink-to-fit around the label) and
-	   center the stars on it, whatever the exercise number width */
-	left: 0;
-	right: 0;
-	display: flex;
-	justify-content: center;
+	left: 9em;
 	font-size: 50%;
 	.ardoise--level--full {
 		color: white;
