@@ -9,7 +9,7 @@ Licensed under the MIT License — see LICENSE for details.
 
 .ardoise--exercice-sheet--exercice--title {
 	> .ardoise--exercice-sheet--exercice--title--obj  {
-		> .ardoise--objectif-count {
+		> .ardoise--objective-count {
 			color: black;
 			background: white;
 		}
@@ -48,6 +48,11 @@ Licensed under the MIT License — see LICENSE for details.
 		> * > .ardoise--level > .ardoise--level--full {
 			color: black;
 		}
+	}
+
+	.ardoise--objective-count {
+		color: white !important;
+		background: black !important;
 	}
 }
 
