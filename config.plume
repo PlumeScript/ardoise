@@ -89,7 +89,10 @@ load: macro(template, theme)
 		let name = $result.names[index]
 
 		let files = do
-			...getTemplateDir($name).walk()
+			- $(getTemplateDir(name) / "core.plume")
+			if (getTemplateDir(name) / "components").exists()
+				...(getTemplateDir(name) / "components").getChildren()
+			end
 			- $(paths.themes / theme / "core" / "core.plume")
 			if theme != "core"
 				- $(paths.themes / theme / name / "core.plume")
