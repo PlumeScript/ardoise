@@ -1,0 +1,38 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+let base64 = $import(pages/utils/base64)
+
+let context = $import(../../../context)
+
+loadImg: macro(path, pos, width:)
+	if type(path) == "string" or type(path) == "number"
+		if context.illustrationPattern()
+			set path = $context.illustrationPattern().replace(%, $path)
+		end
+		set path = $ os.Path(path)
+	end
+
+	let ext = $path.getExtension().lower()
+	let MIME = if Table.find(("png", "gif", "jpeg", "avif", "bmp", "webp"), ext)
+		image/$ext
+	elseif ext == "jpg" 
+		image/jpeg
+	elseif ext == "svg" 
+		image/svg+xml
+	else
+		raise Unsupported extention "$ext".
+	end
+
+	@html.Img(class: ardoise--frame--illustration ardoise--frame--illustration--$pos)
+		if width
+			dataWidth: $width
+		end
+		src: data\:$MIME;base64,$base64($path)
+	end
+end

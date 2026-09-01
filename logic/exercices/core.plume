@@ -9,6 +9,7 @@ let pages = $import(pages)
 let html  = $import(html)
 let Frame from $import(../core/components/frame)
 let applyFormatNumbering from $import(pages)
+let loadImg from $import(../core/utils/img)
 
 macro makeExTitle(exercice, exerciceCount, marker)
 	@html.Div(class: ardoise--exercice-sheet--exercice--title)
