@@ -5,7 +5,7 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
-if (exerciceSheetScreenMode) {
+if (exerciceSheetMode == "screen") {
 
 	// screen mode: build the control bar, then mirror into the display
 	// the exercises matching the current filters, one per selected level

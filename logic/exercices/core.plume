@@ -59,8 +59,8 @@ macro SolutionRender(exercice, exerciceCount, marker, seed)
 	end
 end
 
-macro SheetRender(rows, columns, callback, cellid:0, screen: screen, ?correction, ?todo)
-	@html.Div(class: pages--to-flow ardoise--exercice-sheet $(correction and "ardoise--exercice-sheet-correction") $(screen and "ardoise--exercice-sheet-screen"))
+macro SheetRender(rows, columns, callback, cellid:0, ?correction, ?todo)
+	@html.Div(class: pages--to-flow ardoise--exercice-sheet $(correction and "ardoise--exercice-sheet-correction"))
 		style: do
 			gridTemplateColumns: repeat($columns, 1fr)
 			gridTemplateRows: repeat($rows, 1fr)
@@ -78,51 +78,45 @@ macro SheetRender(rows, columns, callback, cellid:0, screen: screen, ?correction
 	end
 end
 
-macro makeScreenControl()
-	// @Frame
-		@html.Div(class: ardoise--exercice-sheet-screen--controls)
-			@html.Div(class: ardoise--select--obj)
-			end
-			@html.Div(class: ardoise--select--level)
-			end
-			@html.Div(class: ardoise--select--ex)
-			end
-			@html.Div(class: ardoise--toggle--correction)
-			end
+Screen: macro(content)
+	@html.Script
+		\0let exerciceSheetMode = "screen";
+	end
+	@html.Div(class: ardoise--exercice-sheet-screen--controls)
+		@html.Div(class: ardoise--select--obj)
 		end
-	// end
-
+		@html.Div(class: ardoise--select--level)
+		end
+		@html.Div(class: ardoise--select--ex)
+		end
+		@html.Div(class: ardoise--toggle--correction)
+		end
+	end
 	@html.Div(class: ardoise--exercice-sheet-screen--display)
+	end
+	@html.Div(class: ardoise--exercice-sheet-screen--content)
+		$content
 	end
 end
 
-ExerciceSheet: macro(seed:0, pageCount:, exerciceCount:, marker: Ex %1, ?todo, ?screen, ...exercices)
+ExerciceSheet: macro(seed:0, pageCount:, exerciceCount:, marker: Ex %1, ?todo, ...exercices)
 	let cellid = 1
 	@html.Script
-		\0let exerciceSheetScreenMode =
-		if screen
-			\strue
-		else
-			\sfalse
-		end
-		;
+		\0let exerciceSheetMode = "vanilla";
 	end
-	if screen
-		$makeScreenControl()
-	end
-	@Table.join(sep: $(not screen and pages.newpage))
+	@Table.join(sep: $pages.newpage)
 		for exercice in exercices
 			let exerciceTarget = $(exercice.count? or exerciceCount or 20)
 			let _pageCount = $ pageCount or (exerciceTarget/exercice.rows/exercice.columns).ceil()
 			let _marker    = $ exercice.marker? or marker
 			for i in seq(_pageCount)
-				- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, todo: $todo, screen: $screen)
+				- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, todo: $todo)
 					macro(exerciceCount)
 						$ InstructionRender(exercice, exerciceCount, _marker, seed)
 					end
 				end
 				if not todo
-					- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, screen: $screen, ?correction)
+					- @SheetRender($exercice.rows, $exercice.columns, cellid: $cellid, ?correction)
 						macro(exerciceCount)
 							$ SolutionRender(exercice, exerciceCount, _marker, seed)
 						end
