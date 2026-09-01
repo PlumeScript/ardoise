@@ -245,14 +245,18 @@ if (exerciceSheetMode == "screen") {
 	toggleSlot.appendChild(toggleEl);
 	toggleSlot.appendChild(document.createTextNode('Correction'));
 
-	toggleSlot.addEventListener('click', function () {
-		correctionOn = !correctionOn;
-		if (correctionOn) {
+	function setCorrection(on) {
+		correctionOn = on;
+		if (on) {
 			toggleEl.classList.add('ardoise--toggle--on');
 		} else {
 			toggleEl.classList.remove('ardoise--toggle--on');
 		}
-		toggleEl.setAttribute('aria-checked', correctionOn ? 'true' : 'false');
+		toggleEl.setAttribute('aria-checked', on ? 'true' : 'false');
+	}
+
+	toggleSlot.addEventListener('click', function () {
+		setCorrection(!correctionOn);
 		updateScreen();
 	});
 
@@ -379,6 +383,8 @@ if (exerciceSheetMode == "screen") {
 	randomButton.addEventListener('click', function () {
 		var counts = currentCounts();
 		if (counts.length) {
+			// a random pick always comes back in instruction mode
+			setCorrection(false);
 			exSelect.setValue(counts[Math.floor(Math.random() * counts.length)]);
 			updateScreen();
 		}
