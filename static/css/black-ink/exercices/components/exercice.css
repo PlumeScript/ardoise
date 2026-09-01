@@ -50,9 +50,23 @@ Licensed under the MIT License — see LICENSE for details.
 		}
 	}
 
+	/* level 1 badge: white on white — the objective shape is
+	   drawn as a border (white inner cutout on the black shape) */
 	.ardoise--objective-count {
-		color: white !important;
+		position: relative;
 		background: black !important;
+
+		.ardoise--objective-count--inner {
+			position: absolute;
+			inset: 2px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: white;
+			color: black;
+			border-radius: inherit;
+			clip-path: inherit;
+		}
 	}
 }
 

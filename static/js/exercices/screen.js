@@ -351,7 +351,7 @@ if (exerciceSheetMode == "screen") {
 		// same structure as the exercise title badge (makeExTitle)
 		objOptions.push({
 			value: objectives[oi],
-			html: '<span class="ardoise--exercice-sheet--exercice--title--obj">Obj <span class="ardoise--objective-count ardoise--objective-count-' + objectives[oi] + '">' + objectives[oi] + '</span></span>'
+			html: '<span class="ardoise--exercice-sheet--exercice--title--obj">Obj <span class="ardoise--objective-count ardoise--objective-count-' + objectives[oi] + '"><span class="ardoise--objective-count--inner">' + objectives[oi] + '</span></span></span>'
 		});
 	}
 	objSelect.setOptions(objOptions);

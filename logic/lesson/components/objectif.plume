@@ -12,7 +12,7 @@ Objectif: macro(count, content, title:)
 	@Frame
 		title: do
 			@html.Span(class: ardoise--frame--title--prefix)
-				Objectif $html.Span($count, class: ardoise--objective-count ardoise--objective-count-$count)
+				Objectif $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
 			end
 			if title
 				\s$title
