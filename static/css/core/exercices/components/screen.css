@@ -13,12 +13,23 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 }
 
 .ardoise--exercice-sheet-screen--controls {
-	margin-top: var(--space-2x);
+	/* the bar is a direct child of the body, above the page it controls:
+	   align it with the page width and keep it clear of the page */
+	width: var(--page-width);
+	margin: var(--space-2x) auto;
 	padding: var(--space-1x);
 	display: flex;
 	align-items: center;
 	gap: var(--space-1x);
 	justify-content: center;
+}
+
+/* the bar sits outside the page: printing it would shift the A4 page
+   geometry, so hide it on paper */
+@media print {
+	.ardoise--exercice-sheet-screen--controls {
+		display: none;
+	}
 }
 
 .ardoise--exercice-sheet-screen--display {

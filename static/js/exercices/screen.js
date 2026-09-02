@@ -19,6 +19,41 @@ Licensed under the MIT License — see LICENSE for details.
 		var directionSlot = screenControls.querySelector('.ardoise--toggle--direction');
 		var wrapSlot = screenControls.querySelector('.ardoise--toggle--wrap');
 
+		// the bar is paginated inside the page's content slot, but it belongs
+		// above the page: move it to a sibling just before the page that holds
+		// the display. Without a .pages--page (pagination not run, no-JS
+		// fallback) the bar stays in place: current behavior.
+		var displayPage = screenDisplay.closest('.pages--page');
+		if (displayPage && screenControls.parentElement !== displayPage.parentNode) {
+			displayPage.parentNode.insertBefore(screenControls, displayPage);
+
+			// the new body child shifts the :nth-child index of every page
+			// from the display's page on, which flips the left/right gutter
+			// (pages both.css). Restore the pre-move padding on those pages.
+			if (displayPage.parentNode.classList.contains('pages--gutter')) {
+				var gutterPages = displayPage.parentNode.querySelectorAll('.pages--page');
+				var start = 0;
+				while (start < gutterPages.length && gutterPages[start] !== displayPage) {
+					start += 1;
+				}
+				for (var gp = start; gp < gutterPages.length; gp++) {
+					var pageLeft = 'var(--page-margin-left)';
+					var pageRight = 'var(--page-margin-right)';
+					// same rule as both.css: gutter on the inner side of
+					// every page except the first and the last one
+					if (gp > 0 && gp < gutterPages.length - 1) {
+						if (gp % 2 === 0) {
+							pageLeft = 'calc(' + pageLeft + ' + var(--page-margin-gutter))';
+						} else {
+							pageRight = 'calc(' + pageRight + ' + var(--page-margin-gutter))';
+						}
+					}
+					gutterPages[gp].style.paddingLeft = pageLeft;
+					gutterPages[gp].style.paddingRight = pageRight;
+				}
+			}
+		}
+
 		// one row per exercise, read from the --infos data fields
 		var exercises = [];
 		var exerciceNodes = document.querySelectorAll('.ardoise--exercice-sheet--exercice');
