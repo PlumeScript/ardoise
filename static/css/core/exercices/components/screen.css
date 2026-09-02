@@ -45,9 +45,11 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 	gap: var(--space-1x);
 }
 
+/* one shared height for every control of the screen bar */
 .ardoise--select--level > .ardoise--level {
 	display: inline-flex;
 	align-items: center;
+	height: 2em;
 	cursor: pointer;
 	user-select: none;
 }
@@ -69,6 +71,7 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 .ardoise--select--value {
 	display: inline-flex;
 	align-items: center;
+	height: 2em;
 	gap: var(--space-xxs);
 	font: inherit;
 	color: inherit;
@@ -129,6 +132,7 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 	font: inherit;
 	color: inherit;
 	line-height: 1;
+	height: 2em;
 	padding: var(--space-xxs);
 	background: white;
 	border: var(--small-border);
@@ -163,7 +167,7 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 	position: relative;
 	display: inline-block;
 	width: 3em;
-	height: 1.5em;
+	height: 2em;
 	background: white;
 	border: var(--small-border);
 	border-radius: 100em;
