@@ -8,7 +8,7 @@ Licensed under the MIT License — see LICENSE for details.
 html:has(.ardoise--exercice-sheet-screen--content) {
 	font-size: 15pt;
 }
-.ardoise--exercice-sheet-screen--content .ardoise--exercice-sheet {
+.ardoise--exercice-sheet-screen--content .ardoise--exercice-sheet, .ardoise--exercice-sheet-screen--content .ardoise--frame--illustration {
 	display: none;
 }
 
