@@ -28,8 +28,10 @@ end
 
 macro makeExTitle(exercice, exerciceCount, marker)
 	@html.Div(class: ardoise--exercice-sheet--exercice--title)
-		@html.Div(class: ardoise--exercice-sheet--exercice--title--obj)
-			Obj $html.Span($html.Span($exercice.objective, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$exercice.objective)
+		if exercice.objective
+			@html.Div(class: ardoise--exercice-sheet--exercice--title--obj)
+				Obj $html.Span($html.Span($exercice.objective, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$exercice.objective)
+			end
 		end
 		@html.Div(class: ardoise--exercice-sheet--exercice--title--no)
 			$ applyFormatNumbering(1, marker, Table(exerciceCount))
