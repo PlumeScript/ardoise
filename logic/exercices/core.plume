@@ -110,6 +110,10 @@ Screen: macro(content)
 		end
 		@html.Div(class: ardoise--toggle--correction)
 		end
+		@html.Div(class: ardoise--toggle--direction)
+		end
+		@html.Div(class: ardoise--toggle--wrap)
+		end
 	end
 	@html.Div(class: ardoise--exercice-sheet-screen--display)
 	end

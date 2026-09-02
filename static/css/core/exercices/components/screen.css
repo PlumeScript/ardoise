@@ -25,6 +25,15 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 	display: flex;
 }
 
+/* display toggles: flex-direction / flex-wrap, set by screen.js */
+.ardoise--exercice-sheet-screen--display--column {
+	flex-direction: column;
+}
+
+.ardoise--exercice-sheet-screen--display--wrap {
+	flex-wrap: wrap;
+}
+
 .ardoise--exercice-sheet-screen--display .ardoise--exercice-sheet--exercice {
 	border: none;
 }
@@ -133,6 +142,16 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 
 /* correction toggle */
 .ardoise--toggle--correction {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1x);
+	cursor: pointer;
+	user-select: none;
+}
+
+/* display toggles: flex-direction / flex-wrap */
+.ardoise--toggle--direction,
+.ardoise--toggle--wrap {
 	display: inline-flex;
 	align-items: center;
 	gap: var(--space-1x);

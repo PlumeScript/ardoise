@@ -16,6 +16,8 @@ Licensed under the MIT License — see LICENSE for details.
 		var levelSlot = screenControls.querySelector('.ardoise--select--level');
 		var exSlot = screenControls.querySelector('.ardoise--select--ex');
 		var toggleSlot = screenControls.querySelector('.ardoise--toggle--correction');
+		var directionSlot = screenControls.querySelector('.ardoise--toggle--direction');
+		var wrapSlot = screenControls.querySelector('.ardoise--toggle--wrap');
 
 		// one row per exercise, read from the --infos data fields
 		var exercises = [];
@@ -233,36 +235,77 @@ Licensed under the MIT License — see LICENSE for details.
 			return out;
 		}
 
+		// -- toggle widgets ----------------------------------------------------
+
+		// shared switch widget: knob + label in the slot, click flips it
+		function buildToggle(slot, label, onChange) {
+			var toggleEl = document.createElement('div');
+			toggleEl.className = 'ardoise--toggle';
+			toggleEl.setAttribute('role', 'switch');
+			toggleEl.setAttribute('aria-checked', 'false');
+			var knob = document.createElement('span');
+			knob.className = 'ardoise--toggle--knob';
+			toggleEl.appendChild(knob);
+			slot.appendChild(toggleEl);
+			slot.appendChild(document.createTextNode(label));
+
+			var on = false;
+
+			function set(value) {
+				on = value;
+				if (on) {
+					toggleEl.classList.add('ardoise--toggle--on');
+				} else {
+					toggleEl.classList.remove('ardoise--toggle--on');
+				}
+				toggleEl.setAttribute('aria-checked', on ? 'true' : 'false');
+			}
+
+			slot.addEventListener('click', function () {
+				set(!on);
+				if (onChange) {
+					onChange(on);
+				}
+			});
+
+			return { set: set, get: function () { return on; } };
+		}
+
 		// -- correction toggle ------------------------------------------------
 
-		var toggleEl = document.createElement('div');
-		toggleEl.className = 'ardoise--toggle';
-		toggleEl.setAttribute('role', 'switch');
-		toggleEl.setAttribute('aria-checked', 'false');
-		var knob = document.createElement('span');
-		knob.className = 'ardoise--toggle--knob';
-		toggleEl.appendChild(knob);
-		toggleSlot.appendChild(toggleEl);
-		toggleSlot.appendChild(document.createTextNode('Correction'));
+		var correctionToggle = buildToggle(toggleSlot, 'Correction', function (on) {
+			correctionOn = on;
+			updateScreen();
+		});
 
 		function setCorrection(on) {
 			correctionOn = on;
-			if (on) {
-				toggleEl.classList.add('ardoise--toggle--on');
-			} else {
-				toggleEl.classList.remove('ardoise--toggle--on');
-			}
-			toggleEl.setAttribute('aria-checked', on ? 'true' : 'false');
+			correctionToggle.set(on);
 		}
-
-		toggleSlot.addEventListener('click', function () {
-			setCorrection(!correctionOn);
-			updateScreen();
-		});
 
 		function correctionType() {
 			return correctionOn ? 'Correction' : 'Instruction';
 		}
+
+		// -- display toggles ---------------------------------------------------
+
+		// flex-direction / flex-wrap of the display; off keeps the
+		// previous row + nowrap layout
+		buildToggle(directionSlot, 'Colonnes', function (on) {
+			if (on) {
+				screenDisplay.classList.add('ardoise--exercice-sheet-screen--display--column');
+			} else {
+				screenDisplay.classList.remove('ardoise--exercice-sheet-screen--display--column');
+			}
+		});
+
+		buildToggle(wrapSlot, 'Enfilage', function (on) {
+			if (on) {
+				screenDisplay.classList.add('ardoise--exercice-sheet-screen--display--wrap');
+			} else {
+				screenDisplay.classList.remove('ardoise--exercice-sheet-screen--display--wrap');
+			}
+		});
 
 		// -- filtering ---------------------------------------------------------
 
