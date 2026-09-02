@@ -16,16 +16,15 @@ Licensed under the MIT License — see LICENSE for details.
 }
 
 .ardoise--frame--title {
-	top: calc(-1 * var(--space-1x));
 	left: 0;
-	transform: translateY(-100%);
-	box-shadow: var(--small-shadow);
+	transform: translate(calc(-1*var(--main-border-radius)/2), -100%);
 	border-radius: var(--main-border-radius);
+	border-bottom-left-radius: 0;
 	background: black;
 	padding-left: var(--space-1x);
 	padding-right: var(--space-1x);
 	padding-top: var(--space-xxs);
-	padding-bottom: var(--space-xxs);
+	padding-bottom: var(--space-xs);
 }
 
 .ardoise--frame--title--prefix, .ardoise--frame--title--name {
