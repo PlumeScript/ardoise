@@ -322,4 +322,4 @@ Licensed under the MIT License — see LICENSE for details.
 		window.MathJax.startup.promise.then(scheduleRefresh).catch(() => {})
 	if (document.fonts && document.fonts.ready)
 		document.fonts.ready.then(schedule).catch(() => {})
-})()
+})();

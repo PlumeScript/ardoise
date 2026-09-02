@@ -394,4 +394,4 @@ Licensed under the MIT License — see LICENSE for details.
 		// initial state: first exercise of the smallest level
 		updateScreen();
 	}
-})()
+})();
