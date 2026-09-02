@@ -30,6 +30,7 @@ Licensed under the MIT License — see LICENSE for details.
 	display: flex;
 	justify-content: center;
 	font-size: 50%;
+	transform: translateY(calc(-50%));
 	.ardoise--level--full {
 		color: white;
 	}
@@ -93,7 +94,6 @@ Licensed under the MIT License — see LICENSE for details.
 		> * > * > .ardoise--level  {
 			margin-left: calc(-1*var(--space-xxs));
 			margin-right: calc(-1*var(--space-xxs));
-			transform: translateY(calc(25%/3));
 			/*> .ardoise--level--full {
 				display: inline-block;
 				&:nth-child(1) {
