@@ -10,6 +10,21 @@ let html  = $import(html)
 let Frame from $import(../core/components/frame)
 let applyFormatNumbering from $import(pages)
 let loadImg from $import(../core/utils/img)
+let illustrationExerciceFolder from $import(../../context)
+
+let illustrationList
+
+macro getIllustration(i)
+	if not illustrationList and illustrationExerciceFolder()
+		set illustrationList = $ os.Path(illustrationExerciceFolder()).getChildren()
+	end
+	// run $ print(illustrationList)
+	if len(illustrationList) > 0
+		// Width should be adaptative
+		let index = $ 1 + i%len(illustrationList)
+		$ loadImg(illustrationList[index], "top", width: "200")
+	end
+end
 
 macro makeExTitle(exercice, exerciceCount, marker)
 	@html.Div(class: ardoise--exercice-sheet--exercice--title)
@@ -44,6 +59,7 @@ macro InstructionRender(exercice, exerciceCount, marker, seed)
 				dataType: Instruction
 			end
 			$ exercice.generator.get(exerciceCount, seed: seed).render("instruction")
+			$ getIllustration(exerciceCount)
 		end
 	end
 end

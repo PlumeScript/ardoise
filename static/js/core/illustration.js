@@ -118,8 +118,8 @@ Licensed under the MIT License — see LICENSE for details.
 				Object.assign(e.style, {
 					display: "block",
 					position: "absolute",
-					left: px(f.right - w - p.left),
-					top: px(f.top - 90 * s - p.top),
+					left: px(f.right - 20 - w - p.left),
+					top: px(f.top - 50 * s - p.top),
 					width: px(w),
 					height: px(100 * s)
 				})
@@ -127,7 +127,7 @@ Licensed under the MIT License — see LICENSE for details.
 				Object.assign(e.style, {
 					display: "block",
 					position: "absolute",
-					top: px(-90 * s),
+					top: px(-80 * s),
 					right: "0",
 					width: px(w),
 					height: px(100 * s)
