@@ -334,13 +334,13 @@ Licensed under the MIT License — see LICENSE for details.
 			}
 		});
 
-		buildToggle(wrapSlot, 'Enfilage', function (on) {
-			if (on) {
-				screenDisplay.classList.add('ardoise--exercice-sheet-screen--display--wrap');
-			} else {
-				screenDisplay.classList.remove('ardoise--exercice-sheet-screen--display--wrap');
-			}
-		});
+		// buildToggle(wrapSlot, 'Enfilage', function (on) {
+		// 	if (on) {
+		// 		screenDisplay.classList.add('ardoise--exercice-sheet-screen--display--wrap');
+		// 	} else {
+		// 		screenDisplay.classList.remove('ardoise--exercice-sheet-screen--display--wrap');
+		// 	}
+		// });
 
 		// -- filtering ---------------------------------------------------------
 

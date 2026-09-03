@@ -8,6 +8,7 @@ Licensed under the MIT License — see LICENSE for details.
 html:has(.ardoise--exercice-sheet-screen--content) {
 	font-size: 15pt;
 }
+
 .ardoise--exercice-sheet-screen--content .ardoise--exercice-sheet, .ardoise--exercice-sheet-screen--content .ardoise--frame--illustration {
 	display: none;
 }
@@ -15,13 +16,17 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 .ardoise--exercice-sheet-screen--controls {
 	/* the bar is a direct child of the body, above the page it controls:
 	   align it with the page width and keep it clear of the page */
-	width: var(--page-width);
+	width: fit-content;
 	margin: var(--space-2x) auto;
 	padding: var(--space-1x);
 	display: flex;
 	align-items: center;
 	gap: var(--space-1x);
 	justify-content: center;
+
+	border-radius: var(--main-border-radius);
+	border: var(--main-border);
+	background: white;
 }
 
 /* the bar sits outside the page: printing it would shift the A4 page
