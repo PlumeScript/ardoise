@@ -5,6 +5,7 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
+let pages = $import(pages)
 let html = $import(html)
 let Frame from $import(../../core/components/frame)
 let hint from $import(../../core/components/notes)
@@ -81,7 +82,7 @@ Objective: macro(count, title:, mark:, ?columns, ...content)
 					end
 				end
 			end
-			$makeMark(...)
+			$makeMark($pages.hspace(2)) // Should be CSS
 		end
 	end
 	@hint Recopier le numéro de la question et écrivez votre réponse à la suite: 
