@@ -16,6 +16,11 @@ Licensed under the MIT License — see LICENSE for details.
 	background: white;
 }
 
-.ardoise--exam--mark::before {
-	content: "... /";
+.ardoise--exam--mark--value, .ardoise--exam--total-mark--value {
+	display: inline-block;
+	transform: translateY(var(--space-xs));
+}
+
+.ardoise--exam--mark::before, .ardoise--exam--total-mark::before {
+	content: "... / ";
 }

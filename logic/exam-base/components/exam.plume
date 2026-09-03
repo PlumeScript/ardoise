@@ -12,7 +12,15 @@ let Name from $import(./name)
 let chapterTitle from $import(../../core/components/chapterTitle)
 let Frame from $import(../../core/components/frame)
 
-Exam: macro(varcount, generator, chapterOptn:)
+macro makeTotalMark(n)
+	@html.Div(class: ardoise--exam--total-mark)
+		@html.Span(class: ardoise--exam--total-mark--value)
+			$n
+		end
+	end
+end
+
+Exam: macro(varcount, generator, chapterOptn:, mark:)
 	@Table.join(sep: $pages.newpage)
 		for i in seq(varcount)
 			set global.examIteration = $i
@@ -28,6 +36,9 @@ Exam: macro(varcount, generator, chapterOptn:)
 						end
 						@Frame
 							Prénom: ....................................................
+						end
+						if mark
+							@Frame $makeTotalMark($mark)
 						end
 					end
 				end
