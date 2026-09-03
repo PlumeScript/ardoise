@@ -74,7 +74,7 @@ Objective: macro(count, title:, mark:, ?columns, ...content)
 			end
 		end
 		- do
-			@hint Rayez les difficultés que vous n'avez pas choisi:
+			@hint Rayez les difficultés que vous n'avez pas choisies:
 			@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
 				@Table.join(sep: $html.Div(,class: ardoise--exam--level--hsep))
 					for level in content
@@ -85,7 +85,7 @@ Objective: macro(count, title:, mark:, ?columns, ...content)
 			$makeMark($pages.hspace(2)) // Should be CSS
 		end
 	end
-	@hint Recopier le numéro de la question et écrivez votre réponse à la suite: 
+	@hint Recopiez le numéro de la question et écrivez votre réponse à la suite: 
 end
 
 ref Definition: macro(content, name:)
