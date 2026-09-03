@@ -10,7 +10,7 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 }
 
 .ardoise--exercice-sheet-screen--content .ardoise--exercice-sheet, .ardoise--exercice-sheet-screen--content .ardoise--frame--illustration {
-	display: none;
+	display: none !important;
 }
 
 .ardoise--exercice-sheet-screen--controls {
