@@ -1,0 +1,33 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+
+.ardoise--exam--name {
+	display: flex;
+	justify-content: space-around;
+	font-weight: bold;
+}
+
+.ardoise--exam--name .ardoise--frame {
+	margin: var(--space-xs) ;
+	padding: var(--space-1x) var(--space-xs);
+}
+
+.ardoise--exam--objective--item {
+	position: relative;
+
+}
+.ardoise--exam--objective--header {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	gap: var(--space-xs);
+	color: var(--muted);
+	font-size: 80%;
+	transform: translateY(var(--space-2x));
+}

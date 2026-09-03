@@ -8,7 +8,7 @@ Licensed under the MIT License — see LICENSE for details.
 let html = $import(html)
 let Frame from $import(../../core/components/frame)
 
-Objectif: macro(count, content, title:)
+Objective: macro(count, content, title:)
 	@Frame
 		title: do
 			@html.Span(class: ardoise--frame--title--prefix)

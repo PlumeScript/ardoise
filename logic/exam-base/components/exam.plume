@@ -1,0 +1,38 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let pages  = $import(pages)
+let html   = $import(html)
+let global = $import(../../../global)
+let Name from $import(./name)
+let chapterTitle from $import(../../core/components/chapterTitle)
+let Frame from $import(../../core/components/frame)
+
+Exam: macro(varcount, generator, chapterOptn:)
+	@Table.join(sep: $pages.newpage)
+		for i in seq(varcount)
+			set global.examIteration = $i
+			- do
+				if chapterOptn
+					$chapterTitle(...chapterOptn)
+				end
+				
+				@html.Div(class: ardoise--exam--header)
+					@html.Div(class: ardoise--exam--name)
+						@Frame
+							Nom\: .........................................................
+						end
+						@Frame
+							Prénom: ....................................................
+						end
+					end
+				end
+				$ generator(global.examIteration)
+			end
+		end
+	end
+end

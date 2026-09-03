@@ -1,0 +1,11 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+let global = $import(../../../global)
+
+alt: macro(...content)
+	$content[global.examIteration]
+end

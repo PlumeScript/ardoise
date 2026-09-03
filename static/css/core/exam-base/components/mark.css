@@ -1,0 +1,21 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+.ardoise--exam--mark {
+	position: absolute;
+	top: 0;
+	right: var(--space-2x);
+	transform: translateY(-50%);
+	padding:  var(--space-xs) var(--space-1x);
+	border: var(--small-border);
+	border-radius: var(--main-border-radius);
+	background: white;
+}
+
+.ardoise--exam--mark::before {
+	content: "... /";
+}

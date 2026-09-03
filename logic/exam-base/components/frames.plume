@@ -1,0 +1,147 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+let Frame from $import(../../core/components/frame)
+let hint from $import(../../core/components/notes)
+
+macro makeTitle(base, name)
+	$html.Span($base, class: ardoise--frame--title--prefix)
+	if name
+		\s$html.Span($name, class: ardoise--frame--title--name ardoise--name)
+	end
+end
+
+macro makeMark(n)
+	@html.Div(class: ardoise--exam--mark)
+		@html.Span(class: ardoise--exam--mark--value)
+			$n
+		end
+	end
+end
+
+ref NamedFrame: macro(content, title:, name:, mark:)
+	@Frame(title: $title)
+		title: @makeTitle
+			- $title
+			- $name
+		end
+		- do
+			$content
+			if mark
+				$makeMark($mark)
+			end
+		end
+	end
+end
+
+macro renderContent(content, mark)
+	@html.Div(class: ardoise--exam--objective--item)
+		if content.level?
+			@html.Div(class: ardoise--exam--objective--header)
+				if content.level?
+					@html.Div(class: ardoise--level)
+						for in in seq(content.level)
+							$html.Span(,class: ardoise--level--full)
+						end
+						for in in seq((content.maxLevel? or 3) - content.level)
+							$html.Span(,class: ardoise--level--empty)
+						end
+					end
+				end
+				@html.Div(class: ardoise--exam--max-mark)
+					\s— Max $mark points
+				end
+			end
+		end
+		$content.instruction
+	end
+end
+
+Objective: macro(count, title:, mark:, ?columns, ...content)
+	@Frame
+		title: do
+			@html.Span(class: ardoise--frame--title--prefix)
+				Objectif $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
+			end
+			if title
+				\s$title
+			end
+		end
+		- do
+			@hint Rayez les difficultés que vous n'avez pas choisi:
+			@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
+				@Table.join(sep: $html.Div(,class: ardoise--exam--level--hsep))
+					for level in content
+						- $ renderContent(level, mark and mark[level.level?]?)
+					end
+				end
+			end
+			$makeMark(...)
+		end
+	end
+	@hint Recopier le numéro de la question et écrivez votre réponse à la suite: 
+end
+
+ref Definition: macro(content, name:)
+	let title = if plume.locale() == "fr"
+		Définition
+	else
+		Definition
+	end
+	$ NamedFrame(content, title: title, name: name)
+end
+Def: $Definition
+ref Definitions: macro(content, name:)
+	let title = if plume.locale() == "fr"
+		Définitions
+	else
+		Definitions
+	end
+	$ NamedFrame(content, title: title, name: name)
+end
+Defs: $Definitions
+
+ref Property: macro(content, name:)
+	let title = if plume.locale() == "fr"
+		Propriété
+	else
+		Property
+	end
+	$ NamedFrame(content, title: title, name: name)
+end
+Prop: $Property
+
+ref Properties: macro(content, name:)
+	let title = if plume.locale() == "fr"
+		Propriétés
+	else
+		Properties
+	end
+	$ NamedFrame(content, title: title, name: name)
+end
+Props: $Properties
+
+ref Theorem: macro(content, name:)
+	let title = if plume.locale() == "fr"
+		Théorème
+	else
+		Theorem
+	end
+	$ NamedFrame(content, title: title, name: name)
+end
+Th: $Theorem
+
+ref Theorems: macro(content, name:)
+	let title = if plume.locale() == "fr"
+		Théorèmes
+	else
+		Theorems
+	end
+	$ NamedFrame(content, title: title, name: name)
+end
+Ths: $Theorems
