@@ -69,10 +69,10 @@ Licensed under the MIT License — see LICENSE for details.
 		// .ardoise--frame--illustration-top-bottom est forcément une image de 400px (largeur) sur 100px (hauteur)
 		// Place là et scale là de manière à ce que le point de coordonnée (400, 10) soit exactement sur le point (100%, 0) de la frame (en haut à droite) et que le point de coordonnés (400, 90) soit sur (100%, 100%) (en bas à droite)
 		// Retire le display none CSS de l'élément
-		// image rows 10..90 (80px) span the frame's full height, right edge on the frame's right edge
+		// image rows 33..66 span the frame's full height, right edge on the frame's right edge
 		const page = hoist(e, frame)
 		const place = () => {
-			const s = frame.clientHeight / 80
+			const s = frame.clientHeight / 34
 			if (page) {
 				// same rect as before, expressed against the page's padding box
 				const f = padBox(frame)
@@ -81,7 +81,7 @@ Licensed under the MIT License — see LICENSE for details.
 					display: "block",
 					position: "absolute",
 					left: px(f.right - 400 * s - p.left),
-					top: px(f.top - 10 * s - p.top),
+					top: px(f.top - 33 * s - p.top),
 					width: px(400 * s),
 					height: px(100 * s)
 				})
@@ -90,7 +90,7 @@ Licensed under the MIT License — see LICENSE for details.
 				Object.assign(e.style, {
 					display: "block",
 					position: "absolute",
-					top: px(-10 * s),
+					top: px(-33 * s),
 					right: "0",
 					width: px(400 * s),
 					height: px(100 * s)
