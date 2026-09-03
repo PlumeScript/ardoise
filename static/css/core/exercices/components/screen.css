@@ -23,7 +23,7 @@ html:has(.ardoise--exercice-sheet-screen--content) {
 	align-items: center;
 	gap: var(--space-1x);
 	justify-content: center;
-
+	font-family: var(--font-title);
 	border-radius: var(--main-border-radius);
 	border: var(--main-border);
 	background: white;

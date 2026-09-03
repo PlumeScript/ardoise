@@ -28,3 +28,9 @@ Licensed under the MIT License — see LICENSE for details.
 		clip-path: inherit;
 	}
 }
+
+.ardoise--exercice-sheet-screen--controls .ardoise--exercice-sheet--exercice--title--obj {
+	display: flex;
+	gap: var(--space-1x);
+	align-items: center;
+}
