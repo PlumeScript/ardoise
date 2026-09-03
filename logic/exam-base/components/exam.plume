@@ -8,42 +8,13 @@ Licensed under the MIT License — see LICENSE for details.
 let pages  = $import(pages)
 let html   = $import(html)
 let global = $import(../../../global)
-let Name from $import(./name)
 let chapterTitle from $import(../../core/components/chapterTitle)
-let Frame from $import(../../core/components/frame)
 
-macro makeTotalMark(n)
-	@html.Div(class: ardoise--exam--total-mark)
-		@html.Span(class: ardoise--exam--total-mark--value)
-			$n
-		end
-	end
-end
-
-Exam: macro(varcount, generator, chapterOptn:, mark:)
+Exam: macro(varcount, generator)
 	@Table.join(sep: $pages.newpage)
 		for i in seq(varcount)
 			set global.examIteration = $i
-			- do
-				if chapterOptn
-					$chapterTitle(...chapterOptn)
-				end
-				
-				@html.Div(class: ardoise--exam--header)
-					@html.Div(class: ardoise--exam--name)
-						@Frame
-							Nom\: .........................................................
-						end
-						@Frame
-							Prénom: ....................................................
-						end
-						if mark
-							@Frame $makeTotalMark($mark)
-						end
-					end
-				end
-				$ generator(global.examIteration)
-			end
+			- $ generator(global.examIteration)
 		end
 	end
 end

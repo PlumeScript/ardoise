@@ -6,7 +6,28 @@ Licensed under the MIT License — see LICENSE for details.
 */
 
 let html = $import(html)
+let Frame from $import(../../core/components/frame)
 
-Name: macro()
-	$html.Div(class: ardoise--exam--name)
+macro makeTotalMark(n)
+	@html.Div(class: ardoise--exam--total-mark)
+		@html.Span(class: ardoise--exam--total-mark--value)
+			$n
+		end
+	end
+end
+
+ExamName: macro(mark:)
+	@html.Div(class: ardoise--exam--header)
+		@html.Div(class: ardoise--exam--name)
+			@Frame
+				Nom\: .........................................................
+			end
+			@Frame
+				Prénom: ....................................................
+			end
+			if mark
+				@Frame $makeTotalMark($mark)
+			end
+		end
+	end
 end
