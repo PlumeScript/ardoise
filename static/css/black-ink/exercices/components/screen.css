@@ -9,3 +9,22 @@ Licensed under the MIT License — see LICENSE for details.
 .ardoise--exercice-sheet-screen--controls  {
 	box-shadow: var(--main-shadow);
 }
+
+/* objective badges on the white bar: same look as the level-1 badge
+   (black shape with a white cutout) */
+.ardoise--exercice-sheet-screen--controls .ardoise--objective-count {
+	position: relative;
+	background: black !important;
+
+	.ardoise--objective-count--inner {
+		position: absolute;
+		inset: 2px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: white;
+		color: black;
+		border-radius: inherit;
+		clip-path: inherit;
+	}
+}
