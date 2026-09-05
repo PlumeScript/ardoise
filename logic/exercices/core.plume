@@ -75,7 +75,8 @@ macro SolutionRender(exercice, exerciceCount, marker, seed)
 				dataLevel: $exercice.level?
 				dataType: Correction
 			end
-			$ exercice.generator.get(exerciceCount, seed: seed).render("solution")
+			let mode = $ exercice.solutionLong? and "solutionLong" or exercice.solutionShort? and "solutionShort" or "solution"
+			$ exercice.generator.get(exerciceCount, seed: seed).render(mode)
 		end
 	end
 end
@@ -156,13 +157,18 @@ ExerciceSheet: macro(seed:0, pageCount:, exerciceCount:, marker: Ex %1, ?todo, .
 	end
 end
 
-ref Exercice: macro(level:, Number rows: 2, Number columns: 2, generator:, objective:, instruction:, marker:)
+ref Exercice: macro(level:, Number rows: 2, Number columns: 2, generator:, objective:, instruction:, marker:, ?solutionLong, ?solutionShort)
+	if solutionShort and solutionLong
+		raise "solutionShort" and "solutionLong" are exclusive flags.
+	end
 	level: $level
 	rows: $rows
 	columns: $columns
 	generator: $generator
 	objective: $objective
 	marker: $marker
+	solutionLong: $solutionLong
+	solutionShort: $solutionShort
 end
 
 ExerciceList: macro(...args)
