@@ -75,9 +75,15 @@ Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
 			end
 		end
 		- do
-			@hint Rayez les difficultés que vous n'avez pas choisies:
-			if globalInstruction
+			if len(content) > 1
+				@hint Rayez les difficultés que vous n'avez pas choisies:
+			end
+
+			if len(content) > 1 and globalInstruction
 				$pages.newpar
+			end
+
+			if globalInstruction
 				@instruction $globalInstruction
 			end
 			@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
