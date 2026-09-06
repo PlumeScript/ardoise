@@ -9,6 +9,7 @@ let pages = $import(pages)
 let html = $import(html)
 let Frame from $import(../../core/components/frame)
 let hint from $import(../../core/components/notes)
+let instruction from $import(../../core/components/wordHighlight)
 
 macro makeTitle(base, name)
 	$html.Span($base, class: ardoise--frame--title--prefix)
@@ -63,7 +64,7 @@ macro renderContent(content, mark)
 	end
 end
 
-Objective: macro(count, title:, mark:, ?columns, ...content)
+Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
 	@Frame
 		title: do
 			@html.Span(class: ardoise--frame--title--prefix)
@@ -75,6 +76,10 @@ Objective: macro(count, title:, mark:, ?columns, ...content)
 		end
 		- do
 			@hint Rayez les difficultés que vous n'avez pas choisies:
+			if globalInstruction
+				$pages.newpar
+				@instruction $globalInstruction
+			end
 			@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
 				@Table.join(sep: $html.Div(,class: ardoise--exam--level--hsep))
 					for level in content
