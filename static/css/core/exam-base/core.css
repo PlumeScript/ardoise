@@ -7,4 +7,5 @@ Licensed under the MIT License — see LICENSE for details.
 
 .ardoise--exam--objective--columns-content {
 	display: flex;
+	justify-content: space-around;
 }
