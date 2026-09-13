@@ -75,6 +75,26 @@ macro getScript(path)
 	end
 end
 
+macro resolveCSSImport(theme, content)
+	let found
+	macro sub(name)
+		set found = $true
+		$ getStyle(getThemeDir("core") / name)
+		if theme != "core"
+			$ getStyle(getThemeDir(theme) / name)
+		end
+	end
+	let result = $ content.replace("@import%s*\"(.-)\"", sub, ?rich)
+	
+	if found
+		@resolveCSSImport($theme)
+			$result
+		end
+	else
+		$result
+	end
+end
+
 load: macro(template, theme)
 	let result = do
 		logic:  $ Table()
@@ -105,9 +125,8 @@ load: macro(template, theme)
 			end
 		end
 
-		set result.theme[name]  = do
+		set result.theme[name]  = @resolveCSSImport($theme)
 			$ getStyle(getThemeDir("core") / name)
-			// Should have inhéritance like templates
 			if theme != "core"
 				$ getStyle(getThemeDir(theme) / name)
 			end
