@@ -120,7 +120,7 @@ load: macro(template, theme)
 		end
 
 		set result.logic[name] = for file in files
-			if file.getExtension() == "plume"
+			if file.exists() and file.getExtension() == "plume"
 				...file.import()
 			end
 		end

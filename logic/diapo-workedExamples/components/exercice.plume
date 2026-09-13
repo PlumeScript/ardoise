@@ -1,0 +1,52 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+let html = $import(html)
+let pages = $import(pages)
+let Frame from $import(../../core/components/frame)
+let Diapo from $import(../../diapo-base/components/diapo)
+let instruction as _instruction from $import(../../core/components/wordHighlight) 
+
+macro exampleRenderer(example, seed)
+	for i in seq(example.count)
+		- $ example.generator.get(i, seed: seed).render("steps", first: example.first[i]?, last: example.last[i]?)
+	end
+end
+
+macro exampleSolutionRenderer(example, seed)
+	for i in seq(example.count)
+		- $ example.generator.get(i, seed: seed).render("steps", first: example.first[i]?, last: example.last[i]?, ?solution)
+	end
+end
+
+Exercice: macro(Number seed: 0, Number columns: 1, Number gap: 1, Number indent: 0, instruction:, marker:, ...examples)
+	let listOptn = (indent: $indent, gap: $gap, columns: $columns, marker: $marker)
+
+	@Diapo @Frame
+		if instruction
+			@_instruction $instruction
+			$pages.newpar
+		end
+		@pages.List(...listOptn)
+			for i, example in enumerate(examples)
+				...exampleRenderer($example, $seed)
+			end
+		end
+	end
+	@Diapo@Frame  @pages.List(...listOptn)
+		for i, example in enumerate(examples)
+			...exampleSolutionRenderer($example, $seed)
+		end
+	end
+end
+
+Example: macro(generator:, first:, last:, count: 1)
+	generator: $generator
+	first: $first
+	last: $last
+	count: $count
+end
