@@ -35,5 +35,5 @@ Licensed under the MIT License — see LICENSE for details.
 .ardoise--exam--objective--columns-content .ardoise--exam--objective--header {
 	bottom: unset;
 	top: 0;
-	transform: translateY(calc(-1.5*var(--space-2x)));
+	transform: translateY(calc(-1.25*var(--space-2x)));
 }

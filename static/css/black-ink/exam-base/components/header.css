@@ -9,3 +9,14 @@ Licensed under the MIT License — see LICENSE for details.
 	border: var(--small-border);
 	box-shadow: var(--small-shadow);
 }
+
+.ardoise--exam--objective--columns-content .ardoise--exam--level--hsep  {
+	border-left: 1px solid var(--muted);
+	transform: translateX(50%);
+	margin: 0;
+}
+.ardoise--exam--objective--columns-content .ardoise--exam--objective--header {
+	left: 0;
+	right: 0%;
+	justify-content: center;
+}
