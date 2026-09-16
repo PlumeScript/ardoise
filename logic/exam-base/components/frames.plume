@@ -9,7 +9,7 @@ let pages = $import(pages)
 let html = $import(html)
 let Frame from $import(../../core/components/frame)
 let hint from $import(../../core/components/notes)
-let instruction from $import(../../core/components/wordHighlight)
+let instruction, important from $import(../../core/components/wordHighlight)
 let global = $import(../../../global)
 
 macro makeTitle(base, name)
@@ -35,6 +35,17 @@ macro makeMark(n, lastValue:, lastTarget:)
 		end
 		@html.Span(class: ardoise--exam--mark--value)
 			$pages.hspace(2)
+		end
+		@html.Span(class: ardoise--exam--mark--target)
+			$n
+		end
+	end
+end
+
+macro makeFullMark(n)
+	@html.Div(class: ardoise--exam--mark)
+		@html.Span(class: ardoise--exam--mark--value)
+			$n
 		end
 		@html.Span(class: ardoise--exam--mark--target)
 			$n
@@ -82,29 +93,34 @@ end
 
 Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
 	let injection = $global.currentStudentData
+	let isEmpty = $ injection and injection[1][count+1].score == Table.at(mark, -1)
 
-	if not injection or injection[1][count+1].score < Table.at(mark, -1)
-		@Frame
-			title: do
-				@html.Span(class: ardoise--frame--title--prefix)
-					Objectif $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
-				end
-				if title
-					\s$title
-				end
+	@Frame
+		title: do
+			@html.Span(class: ardoise--frame--title--prefix)
+				Objectif $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
 			end
-			- do
-				if len(content) > 1
-					@hint Rayez les difficultés que vous n'avez pas choisies:
-				end
+			if title
+				\s$title
+			end
+		end
+		- do
+			
 
-				if len(content) > 1 and globalInstruction
-					$pages.newpar
-				end
+			if len(content) > 1 and not isEmpty and (not injection or (injection[1][count+1].score < Table.at(mark, -2)))
+				@hint Rayez les difficultés que vous n'avez pas choisies:
+			end
 
-				if globalInstruction
-					@instruction $globalInstruction
-				end
+			if len(content) > 1 and globalInstruction
+				$pages.newpar
+			end
+
+			if globalInstruction and not isEmpty
+				@instruction $globalInstruction
+			end
+			if isEmpty
+				$pages.Align($important(Objectif maîtrisé.), ?center)
+			else
 				@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
 					@Table.join(sep: $html.Div(,class: ardoise--exam--level--hsep))
 						for level in content
@@ -114,16 +130,23 @@ Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
 						end
 					end
 				end
-				let lastTarget = if injection
-					$mark[injection[1][count+1].level]
-				end
-				let lastValue = if injection
-					$injection[1][count+1].score
-				end
+			end
+			let lastTarget = if injection
+				$mark[injection[1][count+1].level]
+			end
+			let lastValue = if injection
+				$injection[1][count+1].score
+			end
+
+			if isEmpty
+				$ makeFullMark(Table.at(mark, -1))
+			else
 				$makeMark($pages.hspace(2), lastValue: $lastValue, lastTarget: $lastTarget) // Should be CSS
 			end
 		end
-		@hint Recopiez le numéro de la question et écrivez votre réponse à la suite: 
+	end
+	if not isEmpty
+		@hint Recopiez le numéro de la question et écrivez votre réponse à la suite:
 	end
 end
 
