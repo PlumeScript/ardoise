@@ -7,5 +7,5 @@ Licensed under the MIT License — see LICENSE for details.
 let global = $import(../../../global)
 
 alt: macro(...content)
-	$content[global.examIteration]
+	$content[(global.examIteration-1) % len(content) + 1]
 end
