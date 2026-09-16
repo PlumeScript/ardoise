@@ -5,12 +5,29 @@ Copyright © Erwan Barbedor
 Licensed under the MIT License — see LICENSE for details.
 */
 
+let pages = $import(pages)
 let html = $import(html)
 let Frame from $import(../../core/components/frame)
+let global = $import(../../../global)
+let hint from $import(../../core/components/notes)
 
-macro makeTotalMark(n)
+macro makeTotalMark(n, injection:)
 	@html.Div(class: ardoise--exam--total-mark)
-		@html.Span(class: ardoise--exam--total-mark--value)
+		if injection
+			@hint
+				let s = 0
+				for i in injection[1]
+					set s += $i.score
+				end
+				$s
+
+				➛
+			end
+		end
+		@html.Span(class: ardoise--exam--mark--value)
+			$pages.hspace(2)
+		end
+		@html.Span(class: ardoise--exam--mark--target)
 			$n
 		end
 	end
@@ -18,15 +35,22 @@ end
 
 ExamName: macro(mark:)
 	@html.Div(class: ardoise--exam--header)
-		@html.Div(class: ardoise--exam--name)
-			@Frame
-				Nom\: .........................................................
-			end
-			@Frame
-				Prénom: ....................................................
-			end
-			if mark
-				@Frame $makeTotalMark($mark)
+		@html.Div(class: ardoise--exam--name $(global.currentStudentData and "ardoise--exam--name--injected"))
+			if global.currentStudentData
+				@Frame $global.currentStudentData.surname $global.currentStudentData.name 
+				if mark
+					@Frame $makeTotalMark($mark, injection: $global.currentStudentData)
+				end
+			else
+				@Frame
+					Nom\: .........................................................
+				end
+				@Frame
+					Prénom: ....................................................
+				end
+				if mark
+					@Frame $makeTotalMark($mark)
+				end
 			end
 		end
 	end

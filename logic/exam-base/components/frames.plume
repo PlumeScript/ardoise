@@ -10,6 +10,7 @@ let html = $import(html)
 let Frame from $import(../../core/components/frame)
 let hint from $import(../../core/components/notes)
 let instruction from $import(../../core/components/wordHighlight)
+let global = $import(../../../global)
 
 macro makeTitle(base, name)
 	$html.Span($base, class: ardoise--frame--title--prefix)
@@ -18,9 +19,24 @@ macro makeTitle(base, name)
 	end
 end
 
-macro makeMark(n)
+macro makeMark(n, lastValue:, lastTarget:)
 	@html.Div(class: ardoise--exam--mark)
+		if lastTarget
+			@hint
+				@html.Span(class: ardoise--exam--mark--value)
+					$lastValue
+				end
+				@html.Span(class: ardoise--exam--mark--target)
+					$lastTarget
+				end
+
+				➛
+			end
+		end
 		@html.Span(class: ardoise--exam--mark--value)
+			$pages.hspace(2)
+		end
+		@html.Span(class: ardoise--exam--mark--target)
 			$n
 		end
 	end
@@ -65,38 +81,50 @@ macro renderContent(content, mark)
 end
 
 Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
-	@Frame
-		title: do
-			@html.Span(class: ardoise--frame--title--prefix)
-				Objectif $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
-			end
-			if title
-				\s$title
-			end
-		end
-		- do
-			if len(content) > 1
-				@hint Rayez les difficultés que vous n'avez pas choisies:
-			end
+	let injection = $global.currentStudentData
 
-			if len(content) > 1 and globalInstruction
-				$pages.newpar
-			end
-
-			if globalInstruction
-				@instruction $globalInstruction
-			end
-			@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
-				@Table.join(sep: $html.Div(,class: ardoise--exam--level--hsep))
-					for level in content
-						- $ renderContent(level, mark and mark[level.level?]?)
-					end
+	if not injection or injection[1][count+1].score < Table.at(mark, -1)
+		@Frame
+			title: do
+				@html.Span(class: ardoise--frame--title--prefix)
+					Objectif $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
+				end
+				if title
+					\s$title
 				end
 			end
-			$makeMark($pages.hspace(2)) // Should be CSS
+			- do
+				if len(content) > 1
+					@hint Rayez les difficultés que vous n'avez pas choisies:
+				end
+
+				if len(content) > 1 and globalInstruction
+					$pages.newpar
+				end
+
+				if globalInstruction
+					@instruction $globalInstruction
+				end
+				@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
+					@Table.join(sep: $html.Div(,class: ardoise--exam--level--hsep))
+						for level in content
+							if not injection or (injection[1][count+1].score < mark[level.level])
+								- $ renderContent(level, mark and mark[level.level?]?)
+							end
+						end
+					end
+				end
+				let lastTarget = if injection
+					$mark[injection[1][count+1].level]
+				end
+				let lastValue = if injection
+					$injection[1][count+1].score
+				end
+				$makeMark($pages.hspace(2), lastValue: $lastValue, lastTarget: $lastTarget) // Should be CSS
+			end
 		end
+		@hint Recopiez le numéro de la question et écrivez votre réponse à la suite: 
 	end
-	@hint Recopiez le numéro de la question et écrivez votre réponse à la suite: 
 end
 
 ref Definition: macro(content, name:)

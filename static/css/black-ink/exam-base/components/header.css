@@ -10,6 +10,10 @@ Licensed under the MIT License — see LICENSE for details.
 	box-shadow: var(--small-shadow);
 }
 
+.ardoise--exam--name.ardoise--exam--name--injected {
+	justify-content: space-between;
+}
+
 .ardoise--exam--objective--columns-content .ardoise--exam--level--hsep  {
 	border-left: 1px solid var(--muted);
 	transform: translateX(50%);

@@ -6,3 +6,5 @@ Licensed under the MIT License — see LICENSE for details.
 */
 
 examIteration: 0
+// Very dirty injection. Should be reworked before 1.0
+currentStudentData: $empty
