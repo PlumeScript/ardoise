@@ -19,8 +19,15 @@ Licensed under the MIT License — see LICENSE for details.
 
 .ardoise--exam--objective--item {
 	position: relative;
-
+	flex-grow: 1;
+	display: flex;
+	
 }
+
+.ardoise--exam--objective--columns-content .ardoise--exam--objective--item {
+	justify-content: center;
+}
+
 .ardoise--exam--objective--header {
 	position: absolute;
 	bottom: 0;
