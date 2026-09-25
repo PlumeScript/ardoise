@@ -91,7 +91,7 @@ macro renderContent(content, mark)
 	end
 end
 
-Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
+Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ?writeOn, ...content)
 	let injection = $global.currentStudentData
 	let isEmpty = $ injection and injection[1][count+1].score == Table.at(mark, -1)
 
@@ -106,10 +106,13 @@ Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
 		end
 		- do
 			
-
+			if writeOn
+				@hint Ecrivez vos réponses directement sur l'exercice.\s
+			end
 			if len(content) > 1 and not isEmpty and (not injection or (injection[1][count+1].score < Table.at(mark, -2)))
 				@hint Rayez les difficultés que vous n'avez pas choisies:
 			end
+
 
 			if len(content) > 1 and globalInstruction
 				$pages.newpar
@@ -145,7 +148,7 @@ Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ...content)
 			end
 		end
 	end
-	if not isEmpty
+	if not isEmpty and not writeOn
 		@hint Recopiez le numéro de la question et écrivez votre réponse à la suite:
 	end
 end
