@@ -29,7 +29,18 @@ Licensed under the MIT License — see LICENSE for details.
 	content: "☆";
 }
 
+.ardoise--dots--container {
+	display: flex;
+	flex-grow: 1;
+	align-items: baseline;
+}
 
+.ardoise--dots {
+	flex-grow: 1;
+    border-bottom: 2px dotted var(--border-strong);
+    margin-right: var(--space-1x);
+    margin-left: var(--space-1x);
+}
 
 p {
 	hyphens: none;

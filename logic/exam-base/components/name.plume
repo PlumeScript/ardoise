@@ -42,11 +42,11 @@ ExamName: macro(mark:)
 					@Frame $makeTotalMark($mark, injection: $global.currentStudentData)
 				end
 			else
-				@Frame
-					Nom\: .........................................................
+				@html.Div(class: ardoise--dots--container ardoise--frame pages--to-flow)
+						Nom\: $html.Div(,class: ardoise--dots)
 				end
-				@Frame
-					Prénom: ....................................................
+				@html.Div(class: ardoise--dots--container ardoise--frame pages--to-flow)
+					Prénom: $html.Div(,class: ardoise--dots)
 				end
 				if mark
 					@Frame $makeTotalMark($mark)
