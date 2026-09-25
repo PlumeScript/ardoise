@@ -10,20 +10,15 @@ Licensed under the MIT License — see LICENSE for details.
 	top: 0;
 	right: var(--space-2x);
 	transform: translateY(-50%);
-	padding:  var(--space-xs) var(--space-1x);
+	padding:  var(--space-1x) var(--space-2x);
 	border: var(--small-border);
 	border-radius: var(--main-border-radius);
 	background: white;
 }
 
-/*.ardoise--exam--mark--value, .ardoise--exam--total-mark--value {
-	display: inline-block;
-	transform: translateY(var(--space-xs));
+.ardoise--exam--total-mark {
+	padding: 0 var(--space-1x);
 }
-
-.ardoise--exam--mark::before, .ardoise--exam--total-mark::before {
-	content: "... / ";
-}*/
 
 .ardoise--exam--mark--value::after {
 	content: "/";
