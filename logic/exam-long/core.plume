@@ -6,3 +6,9 @@ Licensed under the MIT License — see LICENSE for details.
 */
 
 required: $Table(exam-base)
+
+let Objective from $import(../exam-base/components/frames)
+
+Objective: macro(chapter, ...args)
+	$Objective(\s, name: Exercice $chapter, ?writeOut, ...args)
+end

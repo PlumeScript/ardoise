@@ -1,0 +1,29 @@
+/*
+This file is part of Ardoise - A Plume🪶 document generator
+
+Copyright © Erwan Barbedor
+Licensed under the MIT License — see LICENSE for details.
+*/
+
+p {
+    &:not(:last-child) {
+        margin-bottom: var(--space-1x);
+    }
+}
+
+.pages--list {
+    &:not(:last-child) {
+        margin-bottom: var(--space-1x);
+    }
+}
+
+:root {
+    --page-margin-left: 10mm;
+    --page-margin-right: 10mm;
+}
+
+.ardoise--frame {
+    &:has(> .ardoise--frame--title) {
+        padding-top: var(--space-1x);
+    }
+}

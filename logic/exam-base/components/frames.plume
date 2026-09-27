@@ -91,14 +91,14 @@ macro renderContent(content, mark)
 	end
 end
 
-Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ?writeOn, ...content)
+Objective: macro(count, title:, mark:, name: Objectif, globalInstruction:, ?columns, ?writeOn, ?writeOut, ...content)
 	let injection = $global.currentStudentData
 	let isEmpty = $ injection and injection[1][count+1].score == Table.at(mark, -1)
 
 	@Frame
 		title: do
 			@html.Span(class: ardoise--frame--title--prefix)
-				Objectif $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
+				$name $html.Span($html.Span($count, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$count)
 			end
 			if title
 				\s$title
@@ -109,8 +109,8 @@ Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ?writeOn, .
 			if writeOn
 				@hint Ecrivez vos réponses directement sur l'exercice.\s
 			end
-			if len(content) > 1 and not isEmpty and (not injection or (injection[1][count+1].score < Table.at(mark, -2)))
-				@hint Rayez les difficultés que vous n'avez pas choisies:
+			if len(content) > 1 and not isEmpty and (not injection or (injection[1][count+1].score < Table.at(mark, -2))) and not writeOut
+				@hint Rayez les difficultés que vous n'avez pas choisies.\s
 			end
 
 
@@ -148,7 +148,7 @@ Objective: macro(count, title:, mark:, globalInstruction:, ?columns, ?writeOn, .
 			end
 		end
 	end
-	if not isEmpty and not writeOn
+	if not isEmpty and not writeOn and not writeOut
 		@hint Recopiez le numéro de la question et écrivez votre réponse à la suite:
 	end
 end
