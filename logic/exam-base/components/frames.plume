@@ -91,9 +91,10 @@ macro renderContent(content, mark)
 	end
 end
 
-Objective: macro(count, title:, mark:, name: Objectif, globalInstruction:, ?columns, ?writeOn, ?writeOut, ...content)
+Objective: macro(count, title:, mark:, name: Objectif, globalInstruction:, realcount:, ?columns, ?writeOn, ?writeOut, ...content)
 	let injection = $global.currentStudentData
-	let isEmpty = $ injection and injection[1][count+1].score == Table.at(mark, -1)
+	set realcount = $ realcount or count
+	let isEmpty = $ injection and injection[1][realcount+1].score == Table.at(mark, -1)
 
 	@Frame
 		title: do
@@ -109,7 +110,7 @@ Objective: macro(count, title:, mark:, name: Objectif, globalInstruction:, ?colu
 			if writeOn
 				@hint Ecrivez vos réponses directement sur l'exercice.\s
 			end
-			if len(content) > 1 and not isEmpty and (not injection or (injection[1][count+1].score < Table.at(mark, -2))) and not writeOut
+			if len(content) > 1 and not isEmpty and (not injection or (injection[1][realcount+1].score < Table.at(mark, -2))) and not writeOut
 				@hint Rayez les difficultés que vous n'avez pas choisies.\s
 			end
 
@@ -127,7 +128,7 @@ Objective: macro(count, title:, mark:, name: Objectif, globalInstruction:, ?colu
 				@html.Div(class: ardoise--exam--objective--content $(columns and "ardoise--exam--objective--columns-content"))
 					@Table.join(sep: $html.Div(,class: ardoise--exam--level--hsep))
 						for level in content
-							if not injection or (injection[1][count+1].score < mark[level.level])
+							if not injection or (injection[1][realcount+1].score < mark[level.level])
 								- $ renderContent(level, mark and mark[level.level?]?)
 							end
 						end
@@ -135,10 +136,10 @@ Objective: macro(count, title:, mark:, name: Objectif, globalInstruction:, ?colu
 				end
 			end
 			let lastTarget = if injection
-				$mark[injection[1][count+1].level]
+				$mark[injection[1][realcount+1].level]
 			end
 			let lastValue = if injection
-				$injection[1][count+1].score
+				$injection[1][realcount+1].score
 			end
 
 			if isEmpty
