@@ -15,11 +15,13 @@ macro makeTotalMark(n, injection:)
 	@html.Div(class: ardoise--exam--total-mark)
 		if injection
 			@hint
-				let s = 0
+				let x = 0
+				let y = 0
 				for i in injection[1]
-					set s += $i.score
+					set x += $i.score
+					set y += $i.scoreMax
 				end
-				$s
+				$(x/y*100).floor()%
 
 				➛
 			end
