@@ -32,6 +32,13 @@ macro makeExTitle(exercice, exerciceCount, marker)
 			@html.Div(class: ardoise--exercice-sheet--exercice--title--obj)
 				Obj $html.Span($html.Span($exercice.objective, class: ardoise--objective-count--inner), class: ardoise--objective-count ardoise--objective-count-$exercice.objective)
 			end
+		elseif exercice.title?
+			@html.Div(class: ardoise--exercice-sheet--exercice--title--obj)
+				$exercice.title
+				if exercice.titleNum?
+					$html.Span($html.Span($exercice.titleNum, class: ardoise--objective-count--inner), class: ardoise--objective-count)
+				end
+			end
 		end
 		@html.Div(class: ardoise--exercice-sheet--exercice--title--no)
 			$ applyFormatNumbering(1, marker, Table(exerciceCount))
@@ -157,7 +164,7 @@ ExerciceSheet: macro(seed:0, pageCount:, exerciceCount:, marker: Ex %1, ?todo, .
 	end
 end
 
-ref Exercice: macro(level:, Number rows: 2, Number columns: 2, generator:, objective:, instruction:, marker:, ?solutionLong, ?solutionShort)
+ref Exercice: macro(level:, Number rows: 2, Number columns: 2, generator:, objective:, instruction:, marker:, title:, titleNum:, ?solutionLong, ?solutionShort)
 	if solutionShort and solutionLong
 		raise "solutionShort" and "solutionLong" are exclusive flags.
 	end
@@ -169,6 +176,8 @@ ref Exercice: macro(level:, Number rows: 2, Number columns: 2, generator:, objec
 	marker: $marker
 	solutionLong: $solutionLong
 	solutionShort: $solutionShort
+	title: $title
+	titleNum: $titleNum
 end
 
 ExerciceList: macro(...args)
