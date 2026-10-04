@@ -63,7 +63,7 @@ Licensed under the MIT License — see LICENSE for details.
 			if (infos) {
 				exercises.push({
 					node: exerciceNodes[e],
-					objective: parseInt(infos.getAttribute('data-objective'), 10),
+					objective: infos.getAttribute('data-objective'),
 					count: parseInt(infos.getAttribute('data-exercice-count'), 10),
 					level: parseInt(infos.getAttribute('data-level'), 10),
 					type: infos.getAttribute('data-type')
