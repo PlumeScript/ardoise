@@ -34,3 +34,8 @@ Licensed under the MIT License — see LICENSE for details.
 	gap: var(--space-1x);
 	align-items: center;
 }
+
+.ardoise--exercice-sheet-screen--controls + .pages--page {
+	width: 100vw;
+   height: 100vh;
+}
